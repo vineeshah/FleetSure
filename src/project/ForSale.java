@@ -1,3 +1,4 @@
+package project;
 
 public interface ForSale {
 	public void sell();

@@ -1,15 +1,15 @@
-package proj;
+package project;
 
 import java.util.ArrayList;
 
-public class RentalService {
+public class RentalCar {
 	private ArrayList<Car> cinvent;
-	private ArrayList<Bike> binvent;
+	private ArrayList<Motorcycle> binvent;
 	
 	public void addCar(Car car) {
 		cinvent.add(car);
 	}
-	public void addBike(Bike bike) {
+	public void addBike(Motorcycle bike) {
 		binvent.add(bike);
 	}
 	
