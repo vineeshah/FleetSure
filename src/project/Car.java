@@ -1,6 +1,6 @@
 package project;
 
-public class Car extends Vehicle{
+public class Car extends Vehicle implements ForSale{
 	private String ftype;
 	private boolean forSale;
 	private int condition;

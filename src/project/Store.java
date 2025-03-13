@@ -1,6 +1,6 @@
 package project;
 
-import java.util.ArrayLisy;
+import java.util.ArrayList;
 
 public class Store {
 	private Inventory inventory;
