@@ -1,11 +1,11 @@
+package project;
+
 import java.util.ArrayList;
 
 public class Inventory {
 	private ArrayList<Vehicle> allVehicles;
-	private ArrayList<Rentable> vehiclesForRent;
-	private ArrayList<ForSale> vehiclesForSale;
 	
-	public String search() {
+	public ArrayList<Vehicle> search() {
 		return null;
 	}
 	
@@ -13,7 +13,7 @@ public class Inventory {
 		
 	}
 	
-	public void addVehicle() {
+	public void addVehicle(Vehicle vehicle) {
 		
 	}
 	

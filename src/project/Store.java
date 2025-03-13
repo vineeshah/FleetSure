@@ -1,4 +1,6 @@
-import java.util.ArrayList;
+package project;
+
+import java.util.ArrayLisy;
 
 public class Store {
 	private Inventory inventory;

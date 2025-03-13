@@ -1,4 +1,4 @@
-package proj;
+package project;
 
 public class Car extends Vehicle{
 	private String ftype;
