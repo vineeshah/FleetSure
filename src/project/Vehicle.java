@@ -2,71 +2,78 @@ package project;
 
 public abstract class Vehicle {
 	// defining attributes that will be common for every vehicle type
-	private String model;
+	private String VIN;
 	private String brand;
-	private boolean isAvailable;
-	private double pricePerSession;
+	private String model;
+	private int year;
+	private double mileage;
 
 	// making constructors for common
-	public Vehicle(String model, String brand, boolean isAvailable, double pricePerSession) {
+	public Vehicle(String VIN, String brand, String model, int year, double mileage) {
+		this.VIN = VIN;
 		this.model = model;
 		this.brand = brand;
-		this.isAvailable = isAvailable;
-		this.pricePerSession = pricePerSession;
+		this.year = year;
+		this.mileage = mileage;
 	}
 
 	// default cstr to avoid any inheritance risks
 	public Vehicle() {
-		this.brand = "TBD";
-		this.model = "TBD";
-		this.pricePerSession = 0.0;
-		this.isAvailable = true;
+		this.VIN = "N/A";
+		this.model = "N/A";
+		this.brand = "N/A";
+		this.year = 0;
+		this.mileage = 0;
 	}
 
 	// setters and getters
-	public boolean isAvailable() {
-		return isAvailable;
+	public String getVIN() {
+		return this.VIN;
 	}
-
-	public void setAvailability(boolean isAvailable) {
-		this.isAvailable = isAvailable;
+	
+	public void setVIN(String newVIN) {
+		this.VIN = newVIN;
 	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
+	
 	public String getModel() {
-		return model;
+		return this.model;
 	}
-
-	public void setModel(String model) {
-		this.model = model;
+	
+	public void setModel(String newModel) {
+		this.model = newModel;
 	}
-
-	public double getPricePerSession() {
-		return pricePerSession;
+	
+	public String getBrand() {
+		return this.brand;
 	}
-
-	public void setPricePerSession(double price) {
-		this.pricePerSession = price;
+	
+	public void setBrand(String newBrand) {
+		this.brand = newBrand;
 	}
-
-	public double getTotalPrice(int days) {
-		return this.pricePerSession * days;
+	
+	public int getYear() {
+		return this.year;
 	}
-
-	@Override
-	public String toString() {
-		return "Vehicle[Brand=" + brand + ", Model=" + model + ", Price per session=" + pricePerSession + ", Available="
-				+ isAvailable + "]";
+	
+	public void setYear(int newYear) {
+		this.year = newYear;
 	}
-
-	// abstract methods that each vehicle must implement on their own
-	public abstract boolean envFriendly(Vehicle vehicle);
-
+	
+	public double getMileage() {
+		return this.mileage;
+	}
+	
+	public void setMileage(double newMileage) {
+		this.mileage = newMileage;
+	}
+	
+	//Abstract methods to be overridden in subclasses
+	public abstract double calculateValue();
+	
+	public abstract void reportDamage(int cost);
+	
+	public abstract void fixDamage(int cost);
+	
+	public abstract void compareValue(Vehicle other);
+	
 }
