@@ -115,28 +115,29 @@ public class RentalCar extends Vehicle implements Rentable {
 		this.setDaysRented(this.getDaysRented() + days);
 	}
 	
-	//Methods from Vehicle Superclass
-	@Override
-	public double calculateValue() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	// Overridden methods from Vehicle Superclass
 
 	@Override
 	public void reportDamage(int cost) {
-		// TODO Auto-generated method stub
-		
+		this.getCurrentOwner().setHasGoodDrivingRecord(false);		
+		this.getCurrentOwner().setPayment(cost);
 	}
 
 	@Override
-	public void fixDamage(int cost) {
-		// TODO Auto-generated method stub
+	public void fixDamage(int cost, Store store) {
+		store.setRevenue(store.getRevenue() - cost);
 		
 	}
 
 	@Override
 	public void compareValue(Vehicle other) {
-		// TODO Auto-generated method stub
+		double currentValue = this.getDailyRate();
+		double otherValue = this.getDailyRate();
 		
+		if(currentValue > otherValue) {
+			System.out.println(this.toString() + "is of better value.");
+		} else {
+			System.out.println(other.toString() + "is of better value.");
+		}
 	}
 }

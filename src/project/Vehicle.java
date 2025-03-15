@@ -8,7 +8,7 @@ public abstract class Vehicle {
 	private int year;
 	private double mileage;
 
-	// making constructors for common
+	//cConstructors with all attributes
 	public Vehicle(String VIN, String brand, String model, int year, double mileage) {
 		this.VIN = VIN;
 		this.model = model;
@@ -17,7 +17,7 @@ public abstract class Vehicle {
 		this.mileage = mileage;
 	}
 
-	// default cstr to avoid any inheritance risks
+	// default constructor to avoid any inheritance risks
 	public Vehicle() {
 		this.VIN = "N/A";
 		this.model = "N/A";
@@ -67,8 +67,22 @@ public abstract class Vehicle {
 		this.mileage = newMileage;
 	}
 	
-	//Abstract methods to be overridden in subclasses
-	public abstract double calculateValue();
+	// Methods to be overridden in subclasses
+	public double calculateValue() {
+		double value = 10000;
+		if(year < 2000) {
+			value -= 2000;
+		} else if (year < 2010) {
+			value -= 1000;
+		} else {
+			value += 1500;
+		}	
+		double depreciation = mileage/75000;
+		
+		value /= Math.max(1, depreciation);
+		
+		return value;
+	}
 	
 	public abstract void reportDamage(int cost);
 	
