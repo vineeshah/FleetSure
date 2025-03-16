@@ -5,6 +5,7 @@ public class Order {
 	private ArrayList<Vehicle> itemsInOrder;
 	private Customer customer;
 	double amountDue;
+	
 	public double calculateTax() {
 		return 0;
 	}

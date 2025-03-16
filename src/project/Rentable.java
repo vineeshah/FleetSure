@@ -3,9 +3,9 @@ package project;
 public interface Rentable {
 	public double generateRate();
 	
-	public void returnToLot();
+	public void returnToLot(Store store);
 	
-	public boolean rent();
+	public boolean rent(Customer customer, int days);
 	
 	public double calculateLateFees(int days);
 			
