@@ -7,14 +7,16 @@ public abstract class Vehicle {
 	private String model;
 	private int year;
 	private double mileage;
+	private Store location;
 
 	//cConstructors with all attributes
-	public Vehicle(String VIN, String brand, String model, int year, double mileage) {
+	public Vehicle(String VIN, String brand, String model, int year, double mileage, Store location) {
 		this.VIN = VIN;
 		this.model = model;
 		this.brand = brand;
 		this.year = year;
 		this.mileage = mileage;
+		this.location = location;
 	}
 
 	// default constructor to avoid any inheritance risks
@@ -65,6 +67,14 @@ public abstract class Vehicle {
 	
 	public void setMileage(double newMileage) {
 		this.mileage = newMileage;
+	}
+	
+	public Store getLocation( ) {
+		return this.location;
+	}
+	
+	public void setLocation(Store newLocation) {
+		this.location = newLocation;
 	}
 	
 	// Methods to be overridden in subclasses
