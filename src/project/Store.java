@@ -9,3 +9,10 @@ public class Store {
 	private ArrayList<Employee> employees;
 
 }
+	public Store(String city, String state) {
+        this.city = city;
+        this.state = state;
+        this.inventory = new Inventory();
+        this.employees = new ArrayList<>(); 
+}
+
