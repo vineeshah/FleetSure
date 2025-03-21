@@ -12,4 +12,6 @@ public interface Rentable {
 	public void extendRental(int days);
 	
 	public int getDaysRented();
+	
+	public void setDaysRented(int days);
 }

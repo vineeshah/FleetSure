@@ -5,10 +5,25 @@ import java.util.Scanner;
 public class Main {
 	Scanner scanner = new Scanner(System.in);
 	ArrayList<Store> allStores = new ArrayList<>();
+	Customer currentCustomer = null;
 	public void mainMenu() {
 		System.out.println("To Enter Business perspective enter: 1, To Enter Customer Perspective enter: 2");
 	}
 	//Prompts for Customer View
+	
+	public void createCustomer() {
+		System.out.println("Please enter your name:");
+		String name = scanner.nextLine();
+		
+		System.out.println("Are you a member? Answer: (y/n)");
+		String isMember = scanner.nextLine();
+		boolean membership = false;
+		if(isMember.equalsIgnoreCase("y")) {
+			membership = true;
+		}
+		
+		currentCustomer = new Customer(name, 12345, membership);
+	}
 	public void customerMenu() {
 		System.out.println("Welcome to our car business. Please select a location from the list below.");
 		for(int i = 1; i <= allStores.size(); i++) {
@@ -26,7 +41,7 @@ public class Main {
 		System.out.println("Enter a choice (1 - 3): ");
 		
 		int picked = scanner.nextInt();
-		
+		scanner.nextLine();
 		if(picked != 3) {
 			displayCars(store, picked);
 		} else {
@@ -34,7 +49,7 @@ public class Main {
 		}
 	}
 	
-	public void displayCars(Store store, int choice) {
+	public Vehicle displayCars(Store store, int choice) {
 		Inventory inventory = store.getInventory();
 		ArrayList<Vehicle> allCars = new ArrayList<>();
 		if(choice == 1) {
@@ -46,9 +61,19 @@ public class Main {
 		for(int i = 0; i < allCars.size(); i++) {
 			System.out.println(i+1 +": " + allCars.get(i).toString());
 		}
+		
+		System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
+		int picked = scanner.nextInt();
+		scanner.nextLine();
+		
+		if(picked != -1 && picked < allCars.size()) {
+			return allCars.get(picked-1);
+		} else {
+			return null;
+		}
 	}
 	
-	public void searchCustomCar(Store store) {
+	public ArrayList<Vehicle> searchCustomCar(Store store) {
 		System.out.println("We will ask you some questions to help find a car that fits your needs. Answer \"N/A\" if that aspect doesn't matter");
 		System.out.println("What is the maximum mileage you would like?");
 		String mileage = scanner.nextLine();
@@ -88,12 +113,24 @@ public class Main {
 			}
 		}
 		
-		for(int i = 0; i < matchingCars.size(); i++) {
-			System.out.println(i+1 +": " + matchingCars.get(i).toString());
-		}
-		
-		System.out.println("E");
+		return matchingCars;
 	}
+	
+	public void processOrder(Vehicle vehicle) {
+		if(vehicle instanceof Rentable) {
+			System.out.println("You have selected a rental. How many days would you like to rent it? Enter number of days: ");
+			int days = scanner.nextInt();
+			scanner.nextLine();
+			Order order = new Order(currentCustomer, vehicle.getLocation().getEmployees().get(0), vehicle.getLocation());
+			order.addToOrder(vehicle);
+			((Rentable)vehicle).setDaysRented(days);
+		} else {
+			boolean success = false;
+			System.out.println("You have selected to purchase a vehicle.");
+		
+		}
+	}
+	
 	//Prompts for Business View
 	public void businessMenu() {
 		System.out.println("Choose which location to manage below.");
@@ -125,6 +162,7 @@ public class Main {
 	
 	//Exit method
 	public void exit() {
+		scanner.close();
 		System.exit(0);
 	}
 	

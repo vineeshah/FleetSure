@@ -44,9 +44,9 @@ public class Order {
 				Rentable rental = (Rentable) vehicle;
 				amountDue += rental.generateRate()* rental.getDaysRented();
 			} else if (vehicle instanceof ForSale) {
-				
 				amountDue += vehicle.calculateValue();
 			}
 		}
+		return amountDue;
 	}
 }

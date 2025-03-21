@@ -56,6 +56,10 @@ public class Store {
 	public void setProfit(double newProfit) {
 		this.revenue = newProfit;
 	}
+	
+	public ArrayList<Employee>  getEmployees() {
+		return this.employees;
+	}
 	//Methods in Store
 	public void addEmployee(Employee employee) {
 		if(!this.employees.contains(employee)) {
