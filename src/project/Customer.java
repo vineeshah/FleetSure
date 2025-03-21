@@ -1,5 +1,6 @@
 package project;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
@@ -7,9 +8,8 @@ public class Customer {
     private int memberId;
     private boolean membershipActive;
     private List<Vehicle> Rentable;
-    
-    public Customer(String name, int memberId, boolean membershipActive) {
-        public String getName() {
+
+     public String getName() {
         return name;
     }
 
@@ -17,9 +17,11 @@ public class Customer {
         return memberId;
     }
 
-    public boolean hasActiveMembership() {
+    public boolean activeMembership() {
         return membershipActive;
     }
+    
+    public Customer(String name, int memberId, boolean membershipActive) {
         
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Try again you forgot to fill in your name.");
@@ -30,7 +32,7 @@ public class Customer {
         this.Rentable = null;
     }
     
-    public void pay(pay order) {
+    public void pay(Order order) {
         if (order == null) {
             throw new IllegalArgumentException("You have an empty order try again.");
         }
@@ -43,7 +45,7 @@ public class Customer {
         }          
         
         double amount = order.getTotalAmount() * (1 - discount);
-        System.out.println(name, amount, order.getOrderId());
+        System.out.println(name + " your total amount was" + amount);
     }
 
     public void rentVehicle(Store store, String vehicleModel) {
@@ -58,12 +60,13 @@ public class Customer {
              return;
         }
 
-            Vehicle vehicle = new Vehicle(vehicleModel);
-        if (Rentable == null) {
-        	Rentable = new ArrayList<>();
-        }
-
-        Rentable.add(vehicle);
-        store.removeVehicle(vehicle);
-        System.out.println(name + "here is your rental" + vehicleModel);
+        Vehicle vehicle = new Vehicle(vehicleModel);
+        Inventory.add(vehicle);
+        Inventory.removeVehicle(vehicle);
+        System.out.println("Here is your rental" + vehicleModel + "glad we can make your trip a little easier.");
     }
+      public List<Vehicle> getRentedVehicles() {
+        return new ArrayList<>(Rentable);
+    }
+
+}
