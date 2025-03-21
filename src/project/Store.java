@@ -83,7 +83,7 @@ public class Store {
 			return;
 		}
 		
-		for(int i = 0; i < this.employees.size(); i ++) {
+		for(int i = 0; i < employees.size(); i ++) {
 			profit -= amount;
 		}
 	}

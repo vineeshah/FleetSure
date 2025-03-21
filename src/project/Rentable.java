@@ -10,4 +10,6 @@ public interface Rentable {
 	public double calculateLateFees(int days);
 			
 	public void extendRental(int days);
+	
+	public int getDaysRented();
 }

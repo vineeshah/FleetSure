@@ -70,7 +70,8 @@ public class Car extends Vehicle implements ForSale{
 	
 	private void markAsSold() {
 		Store location = this.getLocation();
-		
+		Inventory inventory = location.getInventory();
+		inventory.getAllVehicles().remove(this);
 	}
 	
 	public boolean getPaymentStatus() {
@@ -82,7 +83,7 @@ public class Car extends Vehicle implements ForSale{
 	public void sell(Customer customer, double price) {
 		// TODO Auto-generated method stub
 		this.transferOwnership(customer);
-		this.getLocation().setRevenue()
+		this.getLocation().setRevenue(location.getRevenue() + price);
 		
 	}
 
