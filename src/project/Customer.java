@@ -21,8 +21,13 @@ public class Customer {
         System.out.println("Hi I am here to help you pay: " + Employee.getHourlyStatus());
     }
 
+<<<<<<< Updated upstream
     public double getDiscount() {
         return memberDiscount;
+=======
+    public void chooseCar(Store store) {
+        System.out.println("Choosing a car from store: " + store.toString());
+>>>>>>> Stashed changes
     }
 
     public boolean validate() {
