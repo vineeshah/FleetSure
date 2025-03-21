@@ -96,7 +96,7 @@ public abstract class Vehicle {
 	
 	public abstract void reportDamage(int cost);
 	
-	public abstract void fixDamage(int cost);
+	public abstract void fixDamage(int cost, Store store);
 	
 	public abstract void compareValue(Vehicle other);
 	

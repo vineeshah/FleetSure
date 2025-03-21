@@ -5,6 +5,16 @@ import java.util.ArrayList;
 public class Inventory {
 	private ArrayList<Vehicle> allVehicles;
 	
+	//Constructor
+	public Inventory() {
+		this.allVehicles = new ArrayList<Vehicle>();
+	}
+	
+	//Getter
+	public ArrayList<Vehicle> getAllVehicles() {
+		return this.allVehicles;
+	}
+	// Methods Unique to Inventory
 	public ArrayList<Vehicle> search(String specs) {
 		ArrayList<Vehicle> matchingVehicles = new ArrayList<>();
 		String[] requirement = specs.split(":"); //Input formatted dataType:Value
@@ -61,4 +71,5 @@ public class Inventory {
 	public int getTotalInventory() {
 		return allVehicles.size();
 	}
+	
 }

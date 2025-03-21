@@ -9,8 +9,8 @@ public class RentalCar extends Vehicle implements Rentable {
 	Customer currentOwner;
 	
 	//Constructor Declaration
-	public RentalCar(String VIN, String brand, String model, int year, double mileage) {
-		super(VIN, brand, model, year, mileage);
+	public RentalCar(String VIN, String brand, String model, int year, double mileage, Store location) {
+		super(VIN, brand, model, year, mileage, location);
 		this.isAvailable = true;
 		this.dailyRate = 0;
 		this.daysRented = 0;
@@ -125,7 +125,7 @@ public class RentalCar extends Vehicle implements Rentable {
 
 	@Override
 	public void fixDamage(int cost, Store store) {
-		store.setRevenue(store.getRevenue() - cost);
+		store.setProfit(store.getProfit() - cost);
 		
 	}
 
