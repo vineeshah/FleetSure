@@ -1,81 +1,28 @@
 package project;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
     private String name;
-    private int memberID;
-    private boolean hasMembership;
-    private boolean isValid;
-    private double rentalDiscount;
-    private ArrayList<Vehicle> vehicles;
+    private int memberId;
+    private boolean membershipActive;
+    private List<Vehicle> Rentable;
 
-    //creating information space
-    public Customer(String name, int memberID, boolean hasMembership, boolean isValid, double rentalDiscount) {
+    public Customer(String name, int memberId, boolean membershipActive) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Try again you forgot to fill in your name.");
+        }
         this.name = name;
-        this.memberID = memberID;
-        this.hasMembership = hasMembership;
-        this.isValid = isValid;
-        this.rentalDiscount = rentalDiscount;
-        this.vehicles = new ArrayList<>();
+        this.memberId = memberId;
+        this.membershipActive = membershipActive;
+        this.Rentable = null;
     }
 
-    // when customer pays we call employee to help 
     public void payOrder(Order order) {
-        System.out.println("Processing payment for order: " + order);
+        if (order == null) {
+            throw new IllegalArgumentException("You have an empty order try again.");
+        }
+        double discount = membershipActive ? 0.2 : 0.0; 
+        double amount = order.getTotalAmount() * (1 - discount);
+        System.out.printf("%s paid $%.2f for Order #%d%n", name, amount, order.getOrderId());
     }
-
-    public void chooseCar(Store store) {
-        System.out.println("Choosing a car from store: " + store.toString());
-    }
-
-    public String receive() {
-        return "Vehicle received.";
-    }
-
-    public String displayInfo() {
-        return "Customer Name: " + name + ", Member ID: " + memberID + 
-               ", Membership Status: " + (hasMembership ? "Active" : "Inactive");
-    }
-
-    //Getting information from customer about their status (Info/ member id's, payment, and driving record)
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMemberID() {
-        return memberID;
-    }
-
-    public void setMemberID(int memberID) {
-        this.memberID = memberID;
-    }
-
-    public boolean hasMembership() {
-        return hasMembership;
-    }
-
-    public void setHasMembership(boolean hasMembership) {
-        this.hasMembership = hasMembership;
-    }
-
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void setValid(boolean valid) {
-        isValid = valid;
-    }
-
-    public double getRentalDiscount() {
-        return rentalDiscount;
-    }
-
-    public void setRentalDiscount(double rentalDiscount) {
-        this.rentalDiscount = rentalDiscount;
-    }
-}
