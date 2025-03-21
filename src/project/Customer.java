@@ -29,7 +29,7 @@ public class Customer {
         this.name = name;
         this.memberId = memberId;
         this.membershipActive = membershipActive;
-        this.Rentable = null;
+        this.Rentable = new Arraylist<>();
     }
     
     public void pay(Order order) {
