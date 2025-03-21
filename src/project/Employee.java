@@ -32,7 +32,7 @@ public class Employee {
 
     public void processPayment(Order order) {
     	
-        double total = order.getTotalAmountDue();
+        double total = order.getAmountDue();
         System.out.println(name + "your total amount was" + total );
     }
 
@@ -46,7 +46,7 @@ public class Employee {
         }
 
         Order order = new Order(customer, this, store);
-        System.out.println(name + " new order for" + customer.getName() + " customer id:" + customer.getMemberId() + " from " + store.getName());
+        System.out.println(name + " new order for" + customer.getName() + " customer id:" + customer.getMemberId() + " from " + store.toString());
         return order;
     }
 
@@ -57,14 +57,14 @@ public class Employee {
             return;
         }
 
-        double newTotal = order.getTotalAmountDue() * (1 - discountRate);
-        order.setTotalAmountDue(newTotal);
+        double newTotal = order.getAmountDue() * (1 - discountRate);
+        order.setAmountDue(newTotal);
         System.out.println(name + " took off " + (discountRate * 100) + "% and your new total is : $" + newTotal);
     }
 
     public boolean validateCustomer(Customer customer) {
 
-        boolean activeMembership = customer.hasActiveMembership();
+        boolean activeMembership = customer.activeMembership();
         if (activeMembership) {
             System.out.println(name + customer.getName() + "You qualify for our rentals");
         } else {

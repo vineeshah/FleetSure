@@ -16,7 +16,15 @@ public class Order {
 		this.amountDue = 0;
 		this.itemsInOrder = new ArrayList<>();
 	}
+	//Getters & Setters
+	public double getAmountDue() {
+		return amountDue;
+	}
 	
+	public void setAmountDue(double amount) {
+		this.amountDue = amount;
+	}
+	//Methods 
 	public double calculateTax() {
 		return this.amountDue*.0725;
 	}

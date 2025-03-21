@@ -29,7 +29,7 @@ public class Customer {
         this.name = name;
         this.memberId = memberId;
         this.membershipActive = membershipActive;
-        this.Rentable = new Arraylist<>();
+        this.Rentable = new ArrayList<>();
     }
     
     public void pay(Order order) {
@@ -44,7 +44,7 @@ public class Customer {
             discount = 0.0; 
         }          
         
-        double amount = order.getTotalAmount() * (1 - discount);
+        double amount = order.getAmountDue() * (1 - discount);
         System.out.println(name + " your total amount was" + amount);
     }
 
@@ -53,16 +53,21 @@ public class Customer {
             throw new IllegalArgumentException("The store you selected or car model was not found try again.");
         }
         
-        List<String> carModels = List.of( "Toyota", "Honda", "Ford", "Chevrolet", "BMW", "Mercedes", "Audi", "Volkswagen", "Hyundai", "Kia");
-
-        if (!carModels.contains(vehicleModel)) {
-             System.out.println("The vehicle you are searching for is not avaible try again.");
-             return;
+        Inventory inventory = store.getInventory();
+        ArrayList<Vehicle> vehicles = inventory.getAllVehicles();
+        Vehicle vehicle = null;
+        int i = 0;
+        while(vehicle == null && i < vehicles.size()) {
+        	if(vehicles.get(i).getModel().equalsIgnoreCase(vehicleModel)) {
+        		vehicle = vehicles.get(i);
         }
-
-        Vehicle vehicle = new Vehicle(vehicleModel);
-        Inventory.add(vehicle);
-        Inventory.removeVehicle(vehicle);
+        	i++;
+        }
+        if (vehicle == null) {
+            System.out.println("The vehicle you are searching for is not avaible try again.");
+            return;
+       }
+        inventory.removeFromInventory(vehicle);
         System.out.println("Here is your rental" + vehicleModel + "glad we can make your trip a little easier.");
     }
       public List<Vehicle> getRentedVehicles() {

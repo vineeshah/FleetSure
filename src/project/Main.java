@@ -116,19 +116,19 @@ public class Main {
 		return matchingCars;
 	}
 	
-	public void processOrder(Vehicle vehicle) {
+	public Order processOrder(Vehicle vehicle) {
+		Order order = new Order(currentCustomer, vehicle.getLocation().getEmployees().get(0), vehicle.getLocation());
+		order.addToOrder(vehicle);
+		
 		if(vehicle instanceof Rentable) {
 			System.out.println("You have selected a rental. How many days would you like to rent it? Enter number of days: ");
 			int days = scanner.nextInt();
 			scanner.nextLine();
-			Order order = new Order(currentCustomer, vehicle.getLocation().getEmployees().get(0), vehicle.getLocation());
-			order.addToOrder(vehicle);
 			((Rentable)vehicle).setDaysRented(days);
 		} else {
-			boolean success = false;
 			System.out.println("You have selected to purchase a vehicle.");
-		
 		}
+			return order;
 	}
 	
 	//Prompts for Business View
@@ -170,8 +170,7 @@ public class Main {
     	
         Store store = new Store("California", "San Jose");
         Employee employee = new Employee("Vincent", 100, store);
-        Customer customer = new Customer("Kendrick", 85845, true, true, 0.1);
-        Vehicle vehicle = new Vehicle("VIN88754", "Toyota", "Corolla", 2022, 10000);
+        Customer customer = new Customer("Kendrick", 85845, true);
         
         
         
