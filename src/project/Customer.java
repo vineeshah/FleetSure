@@ -43,8 +43,15 @@ public class Customer {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
+
+    public double getDiscount() {
+        return memberDiscount;
+
+    public void chooseCar(Store store) {
+        System.out.println("Choosing a car from store: " + store.toString());
     }
 
     public int getMemberID() {
