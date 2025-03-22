@@ -102,6 +102,31 @@ public class MovingTruck extends Vehicle implements Rentable {
         return (baseRate + insuranceFee) * daysRented;
     }
     //start with returnTOLot
+    
+    @Override
+    public void returnToLot(Store store) {
+    	Inventory inventory = store.getInventory();
+		inventory.addVehicle(this);
+		this.setAvailability(true);
+		this.setDaysRented(0);
+    }
+
+	@Override
+	public void compareValue(Vehicle other) {
+		if(other instanceof Rentable) {
+			double currentValue = this.getDailyRate();
+			double otherValue = ((Rentable)other).generateRate();
+			
+			if(currentValue > otherValue) {
+				System.out.println(this.toString() + "is of better value.");
+			} else {
+				System.out.println(other.toString() + "is of better value.");
+			}
+		} else {
+			System.out.println("You can't compare a rental to a non-rental car.");
+		}
+		
+	}
 
 
 

@@ -77,7 +77,7 @@ public abstract class Vehicle {
 		this.location = newLocation;
 	}
 	
-	// Methods to be overridden in subclasses
+	// Methods that can be overridden in subclasses
 	public double calculateValue() {
 		double value = 10000;
 		if(year < 2000) {
@@ -94,9 +94,10 @@ public abstract class Vehicle {
 		return value;
 	}
 	
-	public abstract void reportDamage(int cost);
-	
-	public abstract void fixDamage(int cost, Store store);
+	public void fixDamage(int cost) {
+		Store store = this.getLocation();
+		store.setProfit(store.getProfit() - cost);
+	}
 	
 	public abstract void compareValue(Vehicle other);
 	

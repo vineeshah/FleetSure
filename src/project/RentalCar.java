@@ -72,7 +72,6 @@ public class RentalCar extends Vehicle implements Rentable {
 
 	@Override
 	public void returnToLot(Store store) {
-		// TODO Auto-generated method stub
 		Inventory inventory = store.getInventory();
 		
 		inventory.addVehicle(this);
@@ -116,28 +115,20 @@ public class RentalCar extends Vehicle implements Rentable {
 	}
 	
 	// Overridden methods from Vehicle Superclass
-
-	@Override
-	public void reportDamage(int cost) {
-		this.getCurrentOwner().setHasGoodDrivingRecord(false);		
-		this.getCurrentOwner().setPayment(cost);
-	}
-
-	@Override
-	public void fixDamage(int cost, Store store) {
-		store.setProfit(store.getProfit() - cost);
-		
-	}
-
 	@Override
 	public void compareValue(Vehicle other) {
-		double currentValue = this.getDailyRate();
-		double otherValue = this.getDailyRate();
-		
-		if(currentValue > otherValue) {
-			System.out.println(this.toString() + "is of better value.");
+		if(other instanceof Rentable) {
+			double currentValue = this.getDailyRate();
+			double otherValue = ((Rentable)other).generateRate();
+			
+			if(currentValue > otherValue) {
+				System.out.println(this.toString() + "is of better value.");
+			} else {
+				System.out.println(other.toString() + "is of better value.");
+			}
 		} else {
-			System.out.println(other.toString() + "is of better value.");
+			System.out.println("You can't compare a rental to a non-rental car.");
 		}
+		
 	}
 }

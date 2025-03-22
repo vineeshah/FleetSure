@@ -74,10 +74,6 @@ public class Car extends Vehicle implements ForSale{
 		inventory.getAllVehicles().remove(this);
 	}
 	
-	public boolean getPaymentStatus() {
-		
-	}
-	
 	// Methods from ForSale Interface
 	@Override
 	public void sell(Customer customer, double price) {
@@ -104,7 +100,7 @@ public class Car extends Vehicle implements ForSale{
 			this.setOwner(customer);
 			return true;
 		} else {
-			System.out.println("Failure to transfer ownership. Someone already owns this car.")
+			System.out.println("Failure to transfer ownership. Someone already owns this car.");
 			return false;
 		}
 	}
@@ -115,23 +111,27 @@ public class Car extends Vehicle implements ForSale{
 		return false;
 	}
 
-	// Methods from Vehicle Superclass
-	@Override
-	public void reportDamage(int cost) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void fixDamage(int cost) {
-		// TODO Auto-generated method stub
-		
+		Store store = this.getLocation();
+		store.setProfit(store.getProfit() - cost);
 	}
 
 	@Override
 	public void compareValue(Vehicle other) {
-		// TODO Auto-generated method stub
-		
+		if(other instanceof Car) {
+			double currentValue = this.getTotalValue();
+			double otherValue = ((Car)other).getTotalValue();
+			
+			if(currentValue > otherValue) {
+				System.out.println(this.toString() + "is of better value.");
+			} else {
+				System.out.println(other.toString() + "is of better value.");
+			}
+		} else {
+			System.out.println("You can't compare a non-rental car to a rental car.");
+		}
 	}	
 }
 
