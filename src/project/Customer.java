@@ -22,7 +22,8 @@ public class Customer {
     }
     
     public Customer(String name, int memberId, boolean membershipActive) {
-        
+
+        //Catching user input error if they step a step
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Try again you forgot to fill in your name.");
         }
@@ -34,6 +35,7 @@ public class Customer {
     
     public void pay(Order order) {
         if (order == null) {
+            //User input error if we can't find an order to display
             throw new IllegalArgumentException("You have an empty order try again.");
         }
         
@@ -49,6 +51,7 @@ public class Customer {
     }
 
     public void rentVehicle(Store store, String vehicleModel) {
+        //Also checking for any empty inputs so we can tell the user to try again
         if (store == null || vehicleModel == null || vehicleModel.trim().isEmpty()) {
             throw new IllegalArgumentException("The store you selected or car model was not found try again.");
         }
@@ -63,6 +66,8 @@ public class Customer {
         }
         	i++;
         }
+
+        //updating inventory after its been checked out
         if (vehicle == null) {
             System.out.println("The vehicle you are searching for is not avaible try again.");
             return;
