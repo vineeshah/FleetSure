@@ -7,6 +7,6 @@ public interface ForSale {
 	
 	public boolean transferOwnership(Customer customer);
 	
-	boolean removeFromInventory();
+	public void removeFromInventory();
 	
 }

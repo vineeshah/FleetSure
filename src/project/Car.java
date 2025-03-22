@@ -106,9 +106,10 @@ public class Car extends Vehicle implements ForSale{
 	}
 
 	@Override
-	public boolean removeFromInventory() {
-		// TODO Auto-generated method stub
-		return false;
+	public void removeFromInventory() {
+		Store store = this.getLocation();
+		Inventory inventory = store.getInventory();
+		inventory.removeFromInventory(this);
 	}
 
 
