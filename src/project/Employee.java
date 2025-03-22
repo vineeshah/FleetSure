@@ -59,7 +59,7 @@ public class Employee {
 
     public void Discount(Order order, double discountRate) {
     	
-        if (discountRate <= 0 || discountRate > 0.2) {
+        if (discountRate > 0.2) {
             System.out.println("Try again the discount applied does not work.");
             return;
         }
