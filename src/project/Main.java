@@ -204,20 +204,15 @@ public class Main {
         allStores.add(new Store("San Jose", "California" ));
         allStores.add(new Store("San Diego","California"));
         allStores.add(new Store("San Francisco", "California"));
-        allStores.add(new Store("Santa Barbara", "California"));
-        allStores.add(new Store("Los Angeles", "California"));
         
         Employee employee1 = new Employee("Vincent", 100, allStores.get(0));
         Employee employee2 = new Employee("Harry", 101, allStores.get(1));
         Employee employee3 = new Employee("Joe", 102, allStores.get(2));
-        Employee employee4 = new Employee("David", 103, allStores.get(3));
-        Employee employee5 = new Employee("Kenny", 104, allStores.get(4));
+
         
         allStores.get(0).getEmployees().add(employee1);
         allStores.get(1).getEmployees().add(employee2);
         allStores.get(2).getEmployees().add(employee3);
-        allStores.get(3).getEmployees().add(employee4);
-        allStores.get(4).getEmployees().add(employee5);
         
         allStores.get(0).getInventory().addVehicle(new Car("ABCD1234", "Toyota", "Prius", 2012, 10100.0, allStores.get(0)));
         allStores.get(0).getInventory().addVehicle(new Car("123123C4", "Toyota", "Highlander", 2015, 10400.0, allStores.get(0)));
@@ -237,6 +232,28 @@ public class Main {
         allStores.get(2).getInventory().addVehicle(new Car("MNBV1243", "Subaru", "Outback", 2015, 9600.0, allStores.get(2)));
         allStores.get(2).getInventory().addVehicle(new Car("YUIO8765", "Jeep", "Wrangler", 2018, 14300.0, allStores.get(2)));
         
+        allStores.get(0).getInventory().addVehicle(new RentalCar("ABCD1235", "Toyota", "Prius", 2012, 10170.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new RentalCar("123123C5", "Toyota", "Highlander", 2015, 1070.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new RentalCar("ABDDZ115", "Honda", "Civic", 2009, 11030.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new RentalCar("LL224415", "Honda", "Accord", 2017, 150080.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new RentalCar("DC45A1B5", "Toyota", "Corrolla", 2011, 51000.0, allStores.get(0)));
+        
+        allStores.get(1).getInventory().addVehicle(new RentalCar("XYZ98766", "Ford", "Focus", 2018, 1200.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new RentalCar("LMN45676", "Chevrolet", "Malibu", 2014, 18300.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new RentalCar("GHJ23486", "Nissan", "Altima", 2016, 98800.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new RentalCar("QWE56476", "Hyundai", "Elantra", 2020, 68700.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new RentalCar("ASD45896", "Kia", "Sorento", 2013, 12500.0, allStores.get(1)));
+
+        allStores.get(2).getInventory().addVehicle(new RentalCar("ZXCV6787", "Tesla", "Model 3", 2021, 50200.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new RentalCar("POIU9877", "BMW", "X5", 2019, 11900.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new RentalCar("LKJH5437", "Mercedes", "C-Class", 2017, 87080.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new RentalCar("MNBV1247", "Subaru", "Outback", 2015, 96090.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new RentalCar("YUIO8767", "Jeep", "Wrangler", 2018, 147300.0, allStores.get(2)));
+        
+        allStores.get(0).getInventory().addVehicle(new MovingTruck("A9CD1235", "Ford", "Transit", 2012, 10170.0, allStores.get(0), 1500, true));
+        allStores.get(1).getInventory().addVehicle(new MovingTruck("193123C5", "GMC", "Savana", 2015, 1070.0, allStores.get(1), 700, false));
+        allStores.get(3).getInventory().addVehicle(new MovingTruck("A9DDZ115", "Chevrolet", "Express", 2009, 11030.0, allStores.get(3), 950, true));
+       
         //Prompt User to begin the program.
         int choice = mainMenu();
         if(choice == 1) {
