@@ -42,7 +42,7 @@ public class Main {
 		String input = scanner.nextLine();
 		exit(input);
 		
-		int picked = scanner.nextInt();
+		int picked = Integer.parseInt(input);
 		storeMenu(allStores.get(picked-1));
 	}
 		
@@ -122,7 +122,7 @@ public class Main {
 		Inventory current = store.getInventory();
 		ArrayList<Vehicle> matchingCars = current.getAllVehicles();
 		
-		
+		//Takes the intersection of the entire inventory and the vehicles that match the user's specifications
 		if(!mileage.equalsIgnoreCase("n/a")) {
 			matchingCars.retainAll(current.search("mileage:"+ mileage));
 		}
@@ -142,22 +142,30 @@ public class Main {
 				matchingCars.retainAll(current.search("rental:true"));
 			}
 		}
-		
-		for(int i = 0; i < matchingCars.size(); i++) {
-			System.out.println(i+1 +": " + matchingCars.get(i).toString());
-		}
-		
-		System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
-		String input = scanner.nextLine();
-		exit(input);
-		int picked = Integer.parseInt(input);
-		
-		if(picked != -1 && picked < matchingCars.size()) {
-			processOrder(matchingCars.get(picked-1));
-		} else {
-			System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
+		//Prints the list of cars that match the user's specifications.
+		if(matchingCars.size() == 0) {
+			System.out.println("Unfortunately, we have no cars that match your specifications. Please try again with other specifications.");
+			System.out.println("Redirecting you back to the main menu!");
 			System.out.println();
 			customerMenu();
+		} else {
+			
+			for(int i = 0; i < matchingCars.size(); i++) {
+				System.out.println(i+1 +": " + matchingCars.get(i).toString());
+			}
+		
+			System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
+			String input = scanner.nextLine();
+			exit(input);
+			int picked = Integer.parseInt(input);
+		
+			if(picked != -1 && picked < matchingCars.size()) {
+				processOrder(matchingCars.get(picked-1));
+			} else {
+				System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
+				System.out.println();
+				customerMenu();
+			}
 		}
 	}
 	
