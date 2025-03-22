@@ -226,6 +226,51 @@ public class Main {
 		customerMenu();
 		
 	}
+
+	
+	// Jorge - getting a list, creating space for the order, setting /.add, prompt customer
+	public static void payment() {
+  		System.out.println("Getting payment.");
+		Store store = allStores.get(0); 
+		List<Employee> employees = store.getEmployees(); 
+		Employee employee = employees.get(0); 
+		Customer customer = currentCustomer;
+		Order order = new Order(customer, employee, store); 
+		Inventory inventory = store.getInventory(); 
+		List<Vehicle> vehicles = inventory.getAllVehicles(); 
+		Vehicle vehicle = vehicles.get(0); 
+		order.addToOrder(vehicle); 
+	    	currentCustomer.pay(order); 
+	}
+
+	// prompt customer, scanning for user input, catch incase nothing is in place 
+	public static void rentVehicleFromStore() {
+	   	 System.out.println("What vehicle model are you looking for today?");
+	  	 String model = scanner.nextLine();
+	   	 exit(model);
+	
+	    try {
+	        currentCustomer.rentVehicle(allStores.get(0), model);
+	        System.out.println("Here is your vehicle. Drive responsability");
+	    } catch (IllegalArgumentException e) {
+	        System.out.println("Could not get all the information. Try again.");
+	    }
+	}
+
+	//checking for vaild input and returning information
+	public static void displayRentedVehicles() {
+	    List<Vehicle> rentedVehicles = currentCustomer.getRentedVehicles();
+
+	    if (rentedVehicles.isEmpty()) {
+   		    System.out.println("You haven't rented a vehicle yet.");
+	    } else {
+    		    System.out.println("Here is what you have rented.");
+	    for (Vehicle vehicle : rentedVehicles) {
+ 		    System.out.println(vehicle);
+		}   	 	
+	    }
+	}
+	//Jorge ^^^
 	
 	//Prompts for Business View
 	public static void businessMenu() {
