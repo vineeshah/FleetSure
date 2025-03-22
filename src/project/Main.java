@@ -44,6 +44,7 @@ public class Main {
 		
 		int picked = Integer.parseInt(input);
 		storeMenu(allStores.get(picked-1));
+		
 	}
 		
 	public static void storeMenu(Store store) {
@@ -168,6 +169,34 @@ public class Main {
 			}
 		}
 	}
+
+	//Jorge - Call back to the classes for logic and excutes in the main
+	public static void createOrder(Employee employee, Store store) {
+   		  System.out.println("Getting an order ready");
+    	          Order order = new Order(currentCustomer, employee, store);
+  		  System.out.println("Ready to start your order" + employee.getName());
+	}
+
+	public static void validateCustomer(Employee employee) {
+   		 System.out.println("Getting customers details");
+   		 if (currentCustomer != null && currentCustomer.activeMembership()) {
+   	         System.out.println("Customer " + currentCustomer.getName() + " is good to go. Authorized by " + employee.getName());
+   	 } else {
+       		 System.out.println("Customer was not able to be vertified for rentals or purchases. Try again at another time.");
+   	 }
+	}
+	
+	public static void Discount(Employee employee) {
+ 		  System.out.println("Getting your discount");
+		  double discountRate = employee.getDiscountRate(); 
+  	          System.out.println(employee.getName() + "I was able to get your discount" + discountRate);
+	}
+	public static void processPayment(Employee employee) {
+ 		   System.out.println("Getting payment ready");
+    		  System.out.println("You are all set to go. Authorized by " + employee.getName());
+	}
+	//Jorge ^^
+	
 	
 	public static void processOrder(Vehicle vehicle) {
 		Order order = new Order(currentCustomer, vehicle.getLocation().getEmployees().get(0), vehicle.getLocation());
