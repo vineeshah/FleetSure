@@ -63,10 +63,14 @@ public class Employee {
             System.out.println("Try again the discount applied does not work.");
             return;
         }
-
+	
         double newTotal = order.getAmountDue() * (1 - discountRate);
         order.setAmountDue(newTotal);
         System.out.println(name + " took off " + (discountRate * 100) + "% and your new total is : $" + newTotal);
+    }
+	
+	public double getDiscountRate() {
+        return discountRate; 
     }
 
     public boolean validateCustomer(Customer customer) {
