@@ -35,7 +35,7 @@ public class Main {
 			System.out.println(i + ": " + allStores.get(i-1).toString());
 		}
 		int picked = scanner.nextInt();
-		storeMenu(allStores.get(picked));
+		storeMenu(allStores.get(picked-1));
 	}
 		
 	public static void storeMenu(Store store) {
@@ -55,7 +55,7 @@ public class Main {
 		}
 	}
 	
-	public static Vehicle displayCars(Store store, int choice) {
+	public static void displayCars(Store store, int choice) {
 		Inventory inventory = store.getInventory();
 		ArrayList<Vehicle> allCars = new ArrayList<>();
 		if(choice == 1) {
@@ -73,13 +73,15 @@ public class Main {
 		scanner.nextLine();
 		
 		if(picked != -1 && picked < allCars.size()) {
-			return allCars.get(picked-1);
+			processOrder(allCars.get(picked));
 		} else {
-			return null;
+			System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
+			System.out.println();
+			customerMenu();
 		}
 	}
 	
-	public static ArrayList<Vehicle> searchCustomCar(Store store) {
+	public static void searchCustomCar(Store store) {
 		System.out.println("We will ask you some questions to help find a car that fits your needs. Answer \"N/A\" if that aspect doesn't matter");
 		System.out.println("What is the maximum mileage you would like?");
 		String mileage = scanner.nextLine();
@@ -119,10 +121,24 @@ public class Main {
 			}
 		}
 		
-		return matchingCars;
+		for(int i = 0; i < matchingCars.size(); i++) {
+			System.out.println(i+1 +": " + matchingCars.get(i).toString());
+		}
+		
+		System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
+		int picked = scanner.nextInt();
+		scanner.nextLine();
+		
+		if(picked != -1 && picked < matchingCars.size()) {
+			processOrder(matchingCars.get(picked));
+		} else {
+			System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
+			System.out.println();
+			customerMenu();
+		}
 	}
 	
-	public static Order processOrder(Vehicle vehicle) {
+	public static void processOrder(Vehicle vehicle) {
 		Order order = new Order(currentCustomer, vehicle.getLocation().getEmployees().get(0), vehicle.getLocation());
 		order.addToOrder(vehicle);
 		
@@ -134,7 +150,18 @@ public class Main {
 		} else {
 			System.out.println("You have selected to purchase a vehicle.");
 		}
-			return order;
+		System.out.println(order.toString());
+		System.out.println("Please enter your 16 digit credit card number to pay for the order. (No Spaces)");
+		String cardnum = scanner.nextLine();
+		if(cardnum.length() == 16 && cardnum.matches("\\d+")) {
+			order.acceptPayment();
+		} else {
+			System.out.println("We could not validate this purchase. Please try again later.");
+		}
+		System.out.println("Redirecting you to our main menu!");
+		System.out.println();
+		customerMenu();
+		
 	}
 	
 	//Prompts for Business View
@@ -174,17 +201,17 @@ public class Main {
 	
     public static void main(String[] args) {
     	//Preloading the system with Generic values
-        allStores.add(new Store("California", "San Jose"));
-        allStores.add(new Store("California", "San Diego"));
-        allStores.add(new Store("California", "San Fransico"));
-        allStores.add(new Store("California", "Santa Barbara"));
-        allStores.add(new Store("California", "Los Angeles"));
+        allStores.add(new Store("San Jose", "California" ));
+        allStores.add(new Store("San Diego","California"));
+        allStores.add(new Store("San Francisco", "California"));
+        allStores.add(new Store("Santa Barbara", "California"));
+        allStores.add(new Store("Los Angeles", "California"));
         
         Employee employee1 = new Employee("Vincent", 100, allStores.get(0));
-        Employee employee2 = new Employee("Harry", 101, allStores.get(0));
-        Employee employee3 = new Employee("Joe", 102, allStores.get(0));
-        Employee employee4 = new Employee("David", 103, allStores.get(0));
-        Employee employee5 = new Employee("Kenny", 104, allStores.get(0));
+        Employee employee2 = new Employee("Harry", 101, allStores.get(1));
+        Employee employee3 = new Employee("Joe", 102, allStores.get(2));
+        Employee employee4 = new Employee("David", 103, allStores.get(3));
+        Employee employee5 = new Employee("Kenny", 104, allStores.get(4));
         
         allStores.get(0).getEmployees().add(employee1);
         allStores.get(1).getEmployees().add(employee2);
@@ -193,12 +220,24 @@ public class Main {
         allStores.get(4).getEmployees().add(employee5);
         
         allStores.get(0).getInventory().addVehicle(new Car("ABCD1234", "Toyota", "Prius", 2012, 10100.0, allStores.get(0)));
-        allStores.get(0).getInventory().addVehicle(new Car("123123C4", "Toyota", "Highlander", 2015, 10400.0, allStores.get(1)));
-        allStores.get(0).getInventory().addVehicle(new Car("ABDDZ114", "Honda", "Civic", 2009, 10300.0, allStores.get(2)));
-        allStores.get(0).getInventory().addVehicle(new Car("LL22441A", "Honda", "Accord", 2017, 10080.0, allStores.get(3)));
-        allStores.get(0).getInventory().addVehicle(new Car("DC45A1B9", "Toyota", "Corrolla", 2011, 19000.0, allStores.get(4)));
-
+        allStores.get(0).getInventory().addVehicle(new Car("123123C4", "Toyota", "Highlander", 2015, 10400.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new Car("ABDDZ114", "Honda", "Civic", 2009, 10300.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new Car("LL22441A", "Honda", "Accord", 2017, 10080.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new Car("DC45A1B9", "Toyota", "Corrolla", 2011, 19000.0, allStores.get(0)));
         
+        allStores.get(1).getInventory().addVehicle(new Car("XYZ98765", "Ford", "Focus", 2018, 12000.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new Car("LMN45678", "Chevrolet", "Malibu", 2014, 13500.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new Car("GHJ23489", "Nissan", "Altima", 2016, 9800.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new Car("QWE56473", "Hyundai", "Elantra", 2020, 8700.0, allStores.get(1)));
+        allStores.get(1).getInventory().addVehicle(new Car("ASD45896", "Kia", "Sorento", 2013, 15000.0, allStores.get(1)));
+
+        allStores.get(2).getInventory().addVehicle(new Car("ZXCV6789", "Tesla", "Model 3", 2021, 5000.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new Car("POIU9876", "BMW", "X5", 2019, 11000.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new Car("LKJH5432", "Mercedes", "C-Class", 2017, 8700.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new Car("MNBV1243", "Subaru", "Outback", 2015, 9600.0, allStores.get(2)));
+        allStores.get(2).getInventory().addVehicle(new Car("YUIO8765", "Jeep", "Wrangler", 2018, 14300.0, allStores.get(2)));
+        
+        //Prompt User to begin the program.
         int choice = mainMenu();
         if(choice == 1) {
         	businessMenu();
@@ -209,6 +248,6 @@ public class Main {
         
         
         
-	    
+	  
     }
 }

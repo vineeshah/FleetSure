@@ -5,7 +5,7 @@ public class Car extends Vehicle implements ForSale{
 	private double totalValue;
 	private boolean isGoodCondition;
 	Customer owner;
-	Store location;
+	
 	public Car(String VIN, String brand, String model, int year, double mileage, Store location) {
 		super(VIN, brand, model, year, mileage, location);
 		this.currentPrice = 0;
@@ -47,14 +47,6 @@ public class Car extends Vehicle implements ForSale{
 		this.owner = newOwner;
 	}
 	
-	public Store getLocation() {
-		return this.location;
-	}
-	
-	public void setLocation(Store newLocation) {
-		this.location = newLocation;
-	}
-	
 	//Methods Unique to Car Class
 	public boolean negociatePrice(double offer) {
 		this.setCurrentPrice(this.appraiseValue());
@@ -79,7 +71,7 @@ public class Car extends Vehicle implements ForSale{
 	public void sell(Customer customer, double price) {
 		// TODO Auto-generated method stub
 		this.transferOwnership(customer);
-		this.getLocation().setRevenue(location.getRevenue() + price);
+		this.getLocation().setRevenue(this.getLocation().getRevenue() + price);
 		
 	}
 

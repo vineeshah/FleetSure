@@ -18,6 +18,7 @@ public class Order {
 	}
 	//Getters & Setters
 	public double getAmountDue() {
+		calculateAmountDue();
 		return amountDue;
 	}
 	
@@ -43,7 +44,7 @@ public class Order {
 	
 	public void acceptPayment() {
 		amountDue = 0;
-		System.out.println("The order has been paid for.");
+		System.out.println("The order has been paid for. Thank you!");
 	}
 	
 	public double calculateAmountDue() {
@@ -56,5 +57,11 @@ public class Order {
 			}
 		}
 		return amountDue;
+	}
+	
+	//To String
+	@Override
+	public String toString() {
+		return "Amount Due:" + this.getAmountDue();
 	}
 }
