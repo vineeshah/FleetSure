@@ -20,6 +20,7 @@ public class Employee {
     }
 
     public Employee(String name, int id, Store store) throws ObjectOverLimitException {
+	// Checking if any area is lacking any information preventing the user from continuing without the proper fields filled
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Please select an employee. Try again.");
         }
@@ -44,6 +45,7 @@ public class Employee {
     }
 
     public Order createOrder(Customer customer, Vehicle vehicle) {
+	// Checking if any area is lacking any information preventing the user from continuing without the proper fields filled
         if (customer == null) {
             throw new IllegalArgumentException("Try again fill out your name please.");
         }
@@ -63,7 +65,7 @@ public class Employee {
             System.out.println("Try again the discount applied does not work.");
             return;
         }
-	
+	//getting out all the information to the customer
         double newTotal = order.getAmountDue() * (1 - discountRate);
         order.setAmountDue(newTotal);
         System.out.println(name + " took off " + (discountRate * 100) + "% and your new total is : $" + newTotal);
