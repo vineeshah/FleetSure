@@ -12,7 +12,7 @@ public class RentalCar extends Vehicle implements Rentable {
 	public RentalCar(String VIN, String brand, String model, int year, double mileage, Store location) {
 		super(VIN, brand, model, year, mileage, location);
 		this.isAvailable = true;
-		this.dailyRate = 0;
+		this.dailyRate = this.generateRate();
 		this.daysRented = 0;
 		this.currentOwner = null;
 	}

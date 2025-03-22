@@ -14,6 +14,7 @@ public class MovingTruck extends Vehicle implements Rentable {
         this.hasInsurance = hasInsurance;
         this.daysRented = 0; //defualt days rented
         this.isAvailable = true;
+        this.dailyRate = this.generateRate();
     }
 
     // Getters and Setters

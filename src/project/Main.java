@@ -43,23 +43,26 @@ public class Main {
 		System.out.println("1: Search for Rentals");
 		System.out.println("2: Search for Cars on Sale");
 		System.out.println("3: Custom Search");
-		System.out.println("Enter a choice (1 - 3): ");
+		System.out.println("4: Exit the program");
+		System.out.println("Enter a choice (1 - 4): ");
 		
 		int picked = scanner.nextInt();
 		scanner.nextLine();
 		
-		if(picked != 3) {
+		if(picked < 3) {
 			displayCars(store, picked);
-		} else {
+		} else if(picked == 3){
 			searchCustomCar(store);
+		} else {
+			exit();
 		}
 	}
 	
 	public static void displayCars(Store store, int choice) {
 		Inventory inventory = store.getInventory();
-		ArrayList<Vehicle> allCars = new ArrayList<>();
+		ArrayList<Vehicle> allCars = inventory.getAllVehicles();
 		if(choice == 1) {
-			allCars = inventory.search("Rentable:True");
+			allCars = inventory.search("rental:True");
 		} else {
 			allCars = inventory.search("ForSale:True");
 		}
@@ -98,11 +101,12 @@ public class Main {
 		System.out.println("Are you looking to buy or rent? Enter: buy or rent");
 		String purchaseType = scanner.nextLine();
 		
-		ArrayList<Vehicle> matchingCars = new ArrayList<>();
 		Inventory current = store.getInventory();
+		ArrayList<Vehicle> matchingCars = current.getAllVehicles();
+		
 		
 		if(!mileage.equalsIgnoreCase("n/a")) {
-			matchingCars = current.search("mileage:"+mileage);
+			matchingCars.retainAll(current.search("mileage:"+ mileage));
 		}
 		if(!year.equalsIgnoreCase("n/a")) {
 			matchingCars.retainAll(current.search("year:"+ year));
@@ -117,7 +121,7 @@ public class Main {
 			if(purchaseType.equalsIgnoreCase("buy")) {
 				matchingCars.retainAll(current.search("forsale:true"));
 			} else {
-				matchingCars.retainAll(current.search("rentable:true"));
+				matchingCars.retainAll(current.search("rental:true"));
 			}
 		}
 		
@@ -177,7 +181,8 @@ public class Main {
 		System.out.println(store.toString());
 		System.out.println("1: Manage Vehicles");
 		System.out.println("2: Manage Employees");
-		System.out.println("Enter a choice (1 or 2): ");
+		System.out.println("3: Exit the program");
+		System.out.println("Enter a choice (1 - 3): ");
 		
 		int picked = scanner.nextInt();
 		
@@ -252,7 +257,7 @@ public class Main {
         
         allStores.get(0).getInventory().addVehicle(new MovingTruck("A9CD1235", "Ford", "Transit", 2012, 10170.0, allStores.get(0), 1500, true));
         allStores.get(1).getInventory().addVehicle(new MovingTruck("193123C5", "GMC", "Savana", 2015, 1070.0, allStores.get(1), 700, false));
-        allStores.get(3).getInventory().addVehicle(new MovingTruck("A9DDZ115", "Chevrolet", "Express", 2009, 11030.0, allStores.get(3), 950, true));
+        allStores.get(2).getInventory().addVehicle(new MovingTruck("A9DDZ115", "Chevrolet", "Express", 2009, 11030.0, allStores.get(2), 950, true));
        
         //Prompt User to begin the program.
         int choice = mainMenu();
@@ -261,10 +266,6 @@ public class Main {
         } else {
         	createCustomer();
         	customerMenu();
-        }
-        
-        
-        
-	  
+        }  
     }
 }
