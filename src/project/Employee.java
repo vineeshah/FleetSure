@@ -5,6 +5,7 @@ public class Employee {
     private final String name;
     private final int id;
     private final Store store;
+    static int currentObjects;
 
     public String getName() {
         return name;
@@ -18,7 +19,7 @@ public class Employee {
         return store;
     }
 
-    public Employee(String name, int id, Store store) {
+    public Employee(String name, int id, Store store) throws ObjectOverLimitException {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Please select an employee. Try again.");
         }
@@ -28,6 +29,12 @@ public class Employee {
         this.name = name;
         this.id = id;
         this.store = store;
+        
+        currentObjects++;
+		
+		if(currentObjects > 100) {
+			throw new ObjectOverLimitException("employee");
+		}
     }
 
     public void processPayment(Order order) {

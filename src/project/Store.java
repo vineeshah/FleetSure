@@ -9,17 +9,21 @@ public class Store {
 	private ArrayList<Employee> employees;
 	double revenue;
 	double profit;
-
-
+	static int currentObjects;
 	//Constructor
-
-	public Store(String city, String state) {
+	public Store(String city, String state) throws ObjectOverLimitException {
         this.city = city;
         this.state = state;
         this.inventory = new Inventory();
         this.employees = new ArrayList<Employee>();
         this.revenue = 0;
         this.profit = 0;
+        
+        currentObjects++;
+		
+		if(currentObjects > 100) {
+			throw new ObjectOverLimitException("store");
+		}
 	}
 	//Setters and Getters
 	public void setCity(String newCity) {

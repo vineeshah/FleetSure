@@ -7,14 +7,21 @@ public class RentalCar extends Vehicle implements Rentable {
 	private double dailyRate;
 	private int daysRented;
 	Customer currentOwner;
+	static int currentObjects = 0;
 	
 	//Constructor Declaration
-	public RentalCar(String VIN, String brand, String model, int year, double mileage, Store location) {
+	public RentalCar(String VIN, String brand, String model, int year, double mileage, Store location) throws ObjectOverLimitException {
 		super(VIN, brand, model, year, mileage, location);
 		this.isAvailable = true;
 		this.dailyRate = this.generateRate();
 		this.daysRented = 0;
 		this.currentOwner = null;
+		
+		currentObjects++;
+		
+		if(currentObjects > 100) {
+			throw new ObjectOverLimitException("rental car");
+		}
 	}
 	
 	//Setters and Getters

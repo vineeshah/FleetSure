@@ -7,14 +7,20 @@ public class MovingTruck extends Vehicle implements Rentable {
     private boolean isAvailable;
     private double dailyRate;
     Customer currentOwner;
-
-    public MovingTruck (String VIN, String brand, String model, int year, double mileage, Store location, double capacityInLBS, boolean hasInsurance){
+    static int currentObjects;
+    public MovingTruck (String VIN, String brand, String model, int year, double mileage, Store location, double capacityInLBS, boolean hasInsurance) throws ObjectOverLimitException{
         super(VIN, brand, model, year, mileage, location); //comes from parent class
         this.capacityInLBS = capacityInLBS;
         this.hasInsurance = hasInsurance;
         this.daysRented = 0; //defualt days rented
         this.isAvailable = true;
         this.dailyRate = this.generateRate();
+        
+        currentObjects++;
+		
+		if(currentObjects > 100) {
+			throw new ObjectOverLimitException("moving truck");
+		}
     }
 
     // Getters and Setters

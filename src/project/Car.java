@@ -4,14 +4,21 @@ public class Car extends Vehicle implements ForSale{
 	private double currentPrice;
 	private double totalValue;
 	private boolean isGoodCondition;
-	Customer owner;
+	private Customer owner;
+	 static int currentObjects = 0;
 	
-	public Car(String VIN, String brand, String model, int year, double mileage, Store location) {
+	public Car(String VIN, String brand, String model, int year, double mileage, Store location) throws ObjectOverLimitException {
+		
 		super(VIN, brand, model, year, mileage, location);
 		this.currentPrice = 0;
 		this.totalValue = 0;
 		this.isGoodCondition = true;
 		this.owner = null;
+		currentObjects++;
+		
+		if(currentObjects > 100) {
+			throw new ObjectOverLimitException("car");
+		}
 	}
 	
 	// Setters and Getters
