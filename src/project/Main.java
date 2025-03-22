@@ -10,8 +10,11 @@ public class Main {
 		System.out.println("1: Enter Business perspective");
 		System.out.println("2: Enter Customer perspective");
 		System.out.println("Enter 1 or 2 to pick: ");
-		int picked = scanner.nextInt();
-		scanner.nextLine();
+		
+		String input = scanner.nextLine();
+		exit(input);
+		
+		int picked = Integer.parseInt(input);
 		return picked;
 	}
 	//Prompts for Customer View
@@ -19,10 +22,12 @@ public class Main {
 	public static void createCustomer() {
 		System.out.println("Please enter your name:");
 		String name = scanner.nextLine();
+		exit(name);
 		
 		System.out.println("Are you a member? Answer: (y/n)");
 		String isMember = scanner.nextLine();
 		boolean membership = false;
+		exit(isMember);
 		if(isMember.equalsIgnoreCase("y")) {
 			membership = true;
 		}
@@ -34,6 +39,9 @@ public class Main {
 		for(int i = 1; i <= allStores.size(); i++) {
 			System.out.println(i + ": " + allStores.get(i-1).toString());
 		}
+		String input = scanner.nextLine();
+		exit(input);
+		
 		int picked = scanner.nextInt();
 		storeMenu(allStores.get(picked-1));
 	}
@@ -46,15 +54,18 @@ public class Main {
 		System.out.println("4: Exit the program");
 		System.out.println("Enter a choice (1 - 4): ");
 		
-		int picked = scanner.nextInt();
-		scanner.nextLine();
+		String input = scanner.nextLine();
+		exit(input);
+		
+		int picked = Integer.parseInt(input);
+		
 		
 		if(picked < 3) {
 			displayCars(store, picked);
 		} else if(picked == 3){
 			searchCustomCar(store);
 		} else {
-			exit();
+			exit("exit");
 		}
 	}
 	
@@ -72,8 +83,10 @@ public class Main {
 		}
 		
 		System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
-		int picked = scanner.nextInt();
-		scanner.nextLine();
+		String input = scanner.nextLine();
+		exit(input);
+		
+		int picked = Integer.parseInt(input);
 		
 		if(picked != -1 && picked < allCars.size()) {
 			processOrder(allCars.get(picked-1));
@@ -88,18 +101,23 @@ public class Main {
 		System.out.println("We will ask you some questions to help find a car that fits your needs. Answer \"N/A\" if that aspect doesn't matter");
 		System.out.println("What is the maximum mileage you would like?");
 		String mileage = scanner.nextLine();
+		exit(mileage);
 		
 		System.out.println("What is the minimum year you would like?");
 		String year = scanner.nextLine();
+		exit(year);
 		
 		System.out.println("What brand would you like?");
 		String brand = scanner.nextLine();
+		exit(brand);
 		
 		System.out.println("What model would you like?");
 		String model = scanner.nextLine();
+		exit(model);
 		
 		System.out.println("Are you looking to buy or rent? Enter: buy or rent");
 		String purchaseType = scanner.nextLine();
+		exit(purchaseType);
 		
 		Inventory current = store.getInventory();
 		ArrayList<Vehicle> matchingCars = current.getAllVehicles();
@@ -130,8 +148,9 @@ public class Main {
 		}
 		
 		System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
-		int picked = scanner.nextInt();
-		scanner.nextLine();
+		String input = scanner.nextLine();
+		exit(input);
+		int picked = Integer.parseInt(input);
 		
 		if(picked != -1 && picked < matchingCars.size()) {
 			processOrder(matchingCars.get(picked-1));
@@ -147,16 +166,19 @@ public class Main {
 		order.addToOrder(vehicle);
 		
 		if(vehicle instanceof Rentable) {
+			
 			System.out.println("You have selected a rental. How many days would you like to rent it? Enter number of days: ");
-			int days = scanner.nextInt();
-			scanner.nextLine();
+			String input = scanner.nextLine();
+			exit(input);
+			int days = Integer.parseInt(input);
 			((Rentable)vehicle).setDaysRented(days);
 		} else {
-			System.out.println("You have selected to purchase a vehicle.");
+			System.out.println("You have selected to purchase a " + vehicle.toString());
 		}
 		System.out.println(order.toString());
 		System.out.println("Please enter your 16 digit credit card number to pay for the order. (No Spaces)");
 		String cardnum = scanner.nextLine();
+		exit(cardnum);
 		if(cardnum.length() == 16 && cardnum.matches("\\d+")) {
 			order.acceptPayment();
 		} else {
@@ -201,7 +223,11 @@ public class Main {
 	}
 	
 	//Exit method
-	public static void exit() {
+	public static void exit(String input) { //Takes in a input
+		if(!input.equalsIgnoreCase("exit")) { //Only exits if that input matches "exit". Ensures that at any given time, a user can type "exit" to close the program.
+			return;								
+		}
+		System.out.println("Exiting the Program!");
 		scanner.close();
 		System.exit(0);
 	}
