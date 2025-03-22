@@ -27,3 +27,7 @@ Ayman
 - Focused on the Class Moving Truck.
 - Implemented key rental functionality - ensured that Moving truck can be rented, extended, and charged.
 - Used isAvailable and currentOwner to track rental status.
+
+Jorge
+-Customer class and setting exception if the user leaves a prompt blank
+-Employee class and setting exceptions for null items if a prompt is left blank 
