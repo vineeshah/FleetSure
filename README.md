@@ -22,3 +22,8 @@ Contributions:
 James 
 - Created the customer prompt menus in Main. 
 - Focused on the Class Car and RentalCar
+
+Ayman
+- Focused on the Class Moving Truck.
+- Implemented key rental functionality - ensured that Moving truck can be rented, extended, and charged.
+- Used isAvailable and currentOwner to track rental status.
