@@ -129,6 +129,11 @@ public class RentalCar extends Vehicle implements Rentable {
 		} else {
 			System.out.println("You can't compare a rental to a non-rental car.");
 		}
-		
+	}
+	
+	//To String
+	@Override
+	public String toString() {
+		return this.getYear() + " " + this.getBrand() + " " + this.getModel() + ", Rental Rate: " + this.getDailyRate();
 	}
 }

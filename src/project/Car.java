@@ -134,6 +134,11 @@ public class Car extends Vehicle implements ForSale{
 			System.out.println("You can't compare a non-rental car to a rental car.");
 		}
 	}	
+	//To String
+		@Override
+		public String toString() {
+			return this.getYear() + " " + this.getBrand() + " " + this.getModel() + ", Miles: " + this.getMileage();
+		}
 }
 
 

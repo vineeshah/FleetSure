@@ -128,8 +128,11 @@ public class MovingTruck extends Vehicle implements Rentable {
 		
 	}
 
-
-
+	//To String
+	@Override
+	public String toString() {
+		return this.getYear() + " " + this.getBrand() + " " + this.getModel() + ", Capacity: " + this.getCapacityInLBS() +" lbs";
+	}
 
 
 
