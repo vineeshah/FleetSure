@@ -37,7 +37,7 @@ public class Employee {
 		}
     }
 
-    public void processPayment(Order order) {
+    public void Payment(Order order) {
     	
         double total = order.getAmountDue();
         System.out.println(name + "your total amount was" + total );
@@ -57,7 +57,7 @@ public class Employee {
         return order;
     }
 
-    public void applyDiscount(Order order, double discountRate) {
+    public void Discount(Order order, double discountRate) {
     	
         if (discountRate <= 0 || discountRate > 0.2) {
             System.out.println("Try again the discount applied does not work.");
