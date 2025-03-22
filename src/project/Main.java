@@ -3,15 +3,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-	Scanner scanner = new Scanner(System.in);
-	ArrayList<Store> allStores = new ArrayList<>();
-	Customer currentCustomer = null;
-	public void mainMenu() {
-		System.out.println("To Enter Business perspective enter: 1, To Enter Customer Perspective enter: 2");
+	static Scanner scanner = new Scanner(System.in);
+	static ArrayList<Store> allStores = new ArrayList<>();
+	static Customer currentCustomer = null;
+	public static int mainMenu() {
+		System.out.println("1: Enter Business perspective");
+		System.out.println("2: Enter Customer perspective");
+		System.out.println("Enter 1 or 2 to pick: ");
+		int picked = scanner.nextInt();
+		scanner.nextLine();
+		return picked;
 	}
 	//Prompts for Customer View
 	
-	public void createCustomer() {
+	public static void createCustomer() {
 		System.out.println("Please enter your name:");
 		String name = scanner.nextLine();
 		
@@ -24,16 +29,16 @@ public class Main {
 		
 		currentCustomer = new Customer(name, 12345, membership);
 	}
-	public void customerMenu() {
+	public static void customerMenu() {
 		System.out.println("Welcome to our car business. Please select a location from the list below.");
 		for(int i = 1; i <= allStores.size(); i++) {
 			System.out.println(i + ": " + allStores.get(i-1).toString());
 		}
 		int picked = scanner.nextInt();
-		businessStoreMenu(allStores.get(picked));
+		storeMenu(allStores.get(picked));
 	}
 		
-	public void storeMenu(Store store) {
+	public static void storeMenu(Store store) {
 		System.out.println(store.toString());
 		System.out.println("1: Search for Rentals");
 		System.out.println("2: Search for Cars on Sale");
@@ -42,6 +47,7 @@ public class Main {
 		
 		int picked = scanner.nextInt();
 		scanner.nextLine();
+		
 		if(picked != 3) {
 			displayCars(store, picked);
 		} else {
@@ -49,7 +55,7 @@ public class Main {
 		}
 	}
 	
-	public Vehicle displayCars(Store store, int choice) {
+	public static Vehicle displayCars(Store store, int choice) {
 		Inventory inventory = store.getInventory();
 		ArrayList<Vehicle> allCars = new ArrayList<>();
 		if(choice == 1) {
@@ -73,7 +79,7 @@ public class Main {
 		}
 	}
 	
-	public ArrayList<Vehicle> searchCustomCar(Store store) {
+	public static ArrayList<Vehicle> searchCustomCar(Store store) {
 		System.out.println("We will ask you some questions to help find a car that fits your needs. Answer \"N/A\" if that aspect doesn't matter");
 		System.out.println("What is the maximum mileage you would like?");
 		String mileage = scanner.nextLine();
@@ -116,7 +122,7 @@ public class Main {
 		return matchingCars;
 	}
 	
-	public Order processOrder(Vehicle vehicle) {
+	public static Order processOrder(Vehicle vehicle) {
 		Order order = new Order(currentCustomer, vehicle.getLocation().getEmployees().get(0), vehicle.getLocation());
 		order.addToOrder(vehicle);
 		
@@ -132,7 +138,7 @@ public class Main {
 	}
 	
 	//Prompts for Business View
-	public void businessMenu() {
+	public static void businessMenu() {
 		System.out.println("Choose which location to manage below.");
 		for(int i = 0; i < allStores.size(); i++) {
 			System.out.println(i+1 + ": " + allStores.get(i).toString());
@@ -140,7 +146,7 @@ public class Main {
 		int picked = scanner.nextInt();
 		businessStoreMenu(allStores.get(picked));
 	}
-	public void businessStoreMenu(Store store) {
+	public static void businessStoreMenu(Store store) {
 		System.out.println(store.toString());
 		System.out.println("1: Manage Vehicles");
 		System.out.println("2: Manage Employees");
@@ -150,27 +156,56 @@ public class Main {
 		
 	}
 	
-	public void manageVehiclesMenu() {
+	public static void manageVehiclesMenu() {
 		System.out.println("1: Add Vehicles");
 		System.out.println("2: Delete Vehicles");
 	}
 	
-	public void manageEmployeeMenu() {
+	public static void manageEmployeeMenu() {
 		System.out.println("1: Add Employees");
 		System.out.println("2: Delete Employees");
 	}
 	
 	//Exit method
-	public void exit() {
+	public static void exit() {
 		scanner.close();
 		System.exit(0);
 	}
 	
     public static void main(String[] args) {
-    	
-        Store store = new Store("California", "San Jose");
-        Employee employee = new Employee("Vincent", 100, store);
-        Customer customer = new Customer("Kendrick", 85845, true);
+    	//Preloading the system with Generic values
+        allStores.add(new Store("California", "San Jose"));
+        allStores.add(new Store("California", "San Diego"));
+        allStores.add(new Store("California", "San Fransico"));
+        allStores.add(new Store("California", "Santa Barbara"));
+        allStores.add(new Store("California", "Los Angeles"));
+        
+        Employee employee1 = new Employee("Vincent", 100, allStores.get(0));
+        Employee employee2 = new Employee("Harry", 101, allStores.get(0));
+        Employee employee3 = new Employee("Joe", 102, allStores.get(0));
+        Employee employee4 = new Employee("David", 103, allStores.get(0));
+        Employee employee5 = new Employee("Kenny", 104, allStores.get(0));
+        
+        allStores.get(0).getEmployees().add(employee1);
+        allStores.get(1).getEmployees().add(employee2);
+        allStores.get(2).getEmployees().add(employee3);
+        allStores.get(3).getEmployees().add(employee4);
+        allStores.get(4).getEmployees().add(employee5);
+        
+        allStores.get(0).getInventory().addVehicle(new Car("ABCD1234", "Toyota", "Prius", 2012, 10100.0, allStores.get(0)));
+        allStores.get(0).getInventory().addVehicle(new Car("123123C4", "Toyota", "Highlander", 2015, 10400.0, allStores.get(1)));
+        allStores.get(0).getInventory().addVehicle(new Car("ABDDZ114", "Honda", "Civic", 2009, 10300.0, allStores.get(2)));
+        allStores.get(0).getInventory().addVehicle(new Car("LL22441A", "Honda", "Accord", 2017, 10080.0, allStores.get(3)));
+        allStores.get(0).getInventory().addVehicle(new Car("DC45A1B9", "Toyota", "Corrolla", 2011, 19000.0, allStores.get(4)));
+
+        
+        int choice = mainMenu();
+        if(choice == 1) {
+        	businessMenu();
+        } else {
+        	createCustomer();
+        	customerMenu();
+        }
         
         
         

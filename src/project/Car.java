@@ -6,7 +6,7 @@ public class Car extends Vehicle implements ForSale{
 	private boolean isGoodCondition;
 	Customer owner;
 	Store location;
-	public Car(String VIN, String brand, String model, int year, double mileage, Customer Owner, Store location) {
+	public Car(String VIN, String brand, String model, int year, double mileage, Store location) {
 		super(VIN, brand, model, year, mileage, location);
 		this.currentPrice = 0;
 		this.totalValue = 0;
