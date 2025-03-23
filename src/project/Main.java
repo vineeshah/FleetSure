@@ -434,14 +434,15 @@ public class Main {
 	public static void manageEmployeeMenu() throws ObjectOverLimitException {
 		System.out.println("1: Add Employees");
 		System.out.println("2: Delete Employees");
-		System.out.println("Enter a choice (1 or 2): ");
+		System.out.println("3: Pay Employees");
+		System.out.println("4: Calculate Profit");
+		System.out.println("Enter a choice (1): ");
 		
 		
 		int picked = scanner.nextInt();
 	    scanner.nextLine();  
 
 	    if (picked == 1) {
-		
 			System.out.println("Please enter the Employee's Name: ");
 	        String name = scanner.nextLine();
 	        System.out.println("Please enter the Employee's ID: ");
@@ -468,7 +469,27 @@ public class Main {
 	        		mainMenu();
 	        	}
 	        }
-	    }
+	    }else if(picked == 3) {
+	    	System.out.println("Please enter the Store Name for which you want the profit: ");
+	        String storeName = scanner.nextLine();
+	        for (int i = 0; i < allStores.size(); i++) {
+	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
+	            	Store store = allStores.get(i);
+	            	store.payEmployees(store.calculateProfit()/employees.size());
+	            	mainMenu();
+	            }
+	        }
+	    }else if(picked == 4) {
+	    	System.out.println("Please enter the Store Name for which you want the profit: ");
+	        String storeName = scanner.nextLine();
+	        for (int i = 0; i < allStores.size(); i++) {
+	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
+	            	Store store = allStores.get(i);
+	            	store.calculateProfit();
+	            	mainMenu();
+	            }
+	        }
+	    }    
         
 		
 	}
@@ -484,7 +505,7 @@ public class Main {
 		System.exit(0);
 	}
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ObjectOverLimitException {
     	//Preloading the system with Generic values
         try {
         	allStores.add(new Store("San Jose", "California" ));

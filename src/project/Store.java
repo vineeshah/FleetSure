@@ -85,7 +85,7 @@ public class Store {
 		}
 	}
 	
-	public void payEmployees(int amount) {
+	public void payEmployees(double amount) {
 		if (amount <= 0) {
 			System.out.println("Enter a valid payment amount.");
 			return;
@@ -98,9 +98,8 @@ public class Store {
 	
 	public double calculateProfit() {
 		
-		return this.getProfit();
+		return this.revenue - 10.57*(100-currentObjects);//10.57 taxes multiplied to number of vehicles sold
 	}
-	
 	//Overridden From Object class 
 	@Override 
 	public String toString() {
