@@ -88,10 +88,9 @@ public class RentalCar extends Vehicle implements Rentable {
 	}
 
 	@Override
-	public boolean rent(Customer customer, int days) {
+	public void rent(Customer customer, int days) throws RentalAvailibilityException {
 		if(!this.isAvailable()) {
-			System.out.println("Sorry! This rental car has already rented, please wait " + this.getDaysRented() + " and try again later. ");
-			return false;
+			throw new RentalAvailibilityException(this);
 		}
 		
 		this.setCurrentOwner(customer);
@@ -99,7 +98,6 @@ public class RentalCar extends Vehicle implements Rentable {
 		this.setDaysRented(days);
 		
 		System.out.println("Success! You have successfully rented out the car.");
-		return true;
 	}
 
 	@Override

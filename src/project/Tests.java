@@ -280,12 +280,13 @@ public class Tests {
 			location = new Store("City", "State");
 			 RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
 		     Customer customer = new Customer("Takumi Fujiwara", 86, true);
-		     boolean rented = rentalCar.rent(customer, 1);
-		     assertTrue(rented);
+		      rentalCar.rent(customer, 1);
 		     assertFalse(rentalCar.isAvailable());
 		     assertEquals(customer, rentalCar.getCurrentOwner());
 		     assertEquals(1, rentalCar.getDaysRented());
 		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		} catch (RentalAvailibilityException e) {
 			e.printStackTrace();
 		}
        
@@ -310,9 +311,29 @@ public class Tests {
 	        assertNull(rentalCar.getCurrentOwner());
 		} catch (ObjectOverLimitException e) {
 			e.printStackTrace();
+		} catch (RentalAvailibilityException e) {
+			e.printStackTrace();
 		}
         
     }
+    	
+    	@Test public void availibiltyExceptionTest() {
+    		try {
+    			RentalCar rental = new RentalCar("VIN", "Brand", "Model", 2000, 10000, null);
+    			Customer c = new Customer("Name", 100, true);
+    			Customer d = new Customer("Name", 99, true);
+    			rental.rent(c, 10); //Will do nothing, should work
+    			
+    			assertTrue(rental.getCurrentOwner() == c);
+    			assertTrue(rental.getDaysRented() == 10);
+    			
+    			rental.rent(d, 25); //Will throw error
+    		} catch(ObjectOverLimitException e) {
+    			e.printStackTrace();
+    		} catch (RentalAvailibilityException e) {
+				assertEquals(e.getMessage(),"This Brand Model is unavailable at this time. Please try again in 10 days." );
+			}
+    	}
 
 	
 }

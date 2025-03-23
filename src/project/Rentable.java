@@ -5,7 +5,7 @@ public interface Rentable {
 	
 	public void returnToLot(Store store);
 	
-	public boolean rent(Customer customer, int days);
+	public void rent(Customer customer, int days) throws RentalAvailibilityException;
 	
 	public double calculateLateFees(int days);
 			

@@ -68,17 +68,16 @@ public class MovingTruck extends Vehicle implements Rentable {
 	}
     //implement Rentable interface methods
     @Override
-    public boolean rent(Customer customer, int days) {
+    public void rent(Customer customer, int days) throws RentalAvailibilityException {
         // Check if the truck is available
         if (!this.isAvailable()) {
-            System.out.println("Sorry! This moving truck is already rented. Please wait until it's available again.");
-            return false; // Cannot rent if not available
+            throw new RentalAvailibilityException(this);
+             // Cannot rent if not available
         }
 
         // Validate customer and rental period
         if (customer == null || days <= 0) {
             System.out.println("Invalid rental request. Please provide a valid customer and rental days.");
-            return false; // Invalid rental request
         }
 
         // Set the current customer as the owner and update rental status
@@ -86,8 +85,7 @@ public class MovingTruck extends Vehicle implements Rentable {
         this.setAvailability(false); // Set truck to unavailable
         this.setDaysRented(days); // Set the number of rental days
 
-        System.out.println("Success! You have successfully rented the moving truck for " + days + " days.");
-        return true; // Rental was successful
+        System.out.println("Success! You have successfully rented the moving truck for " + days + " days."); // Rental was successful
     }
     @Override
     public double calculateLateFees(int days){
