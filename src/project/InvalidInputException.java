@@ -1,7 +1,7 @@
 package project;
 
 public class InvalidInputException extends Exception {
-	public InvalidInputException () {
-		super("The input enter does not match the expected values. Please try again.");
+	public InvalidInputException (String s) {
+		super("The input\"" + s + "\" does not match the expected values. Please try again.");
 	}
 }

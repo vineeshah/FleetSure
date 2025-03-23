@@ -76,7 +76,6 @@ public class Car extends Vehicle implements ForSale{
 	// Methods from ForSale Interface
 	@Override
 	public void sell(Customer customer, double price) {
-		// TODO Auto-generated method stub
 		this.transferOwnership(customer);
 		this.getLocation().setRevenue(this.getLocation().getRevenue() + price);
 		
@@ -94,13 +93,12 @@ public class Car extends Vehicle implements ForSale{
 	}
 
 	@Override
-	public boolean transferOwnership(Customer customer) {
+	public void transferOwnership(Customer customer) {
 		if(this.getOwner() == null) {
 			this.setOwner(customer);
-			return true;
+			customer.getRentedVehicles().add(this);
 		} else {
 			System.out.println("Failure to transfer ownership. Someone already owns this car.");
-			return false;
 		}
 	}
 

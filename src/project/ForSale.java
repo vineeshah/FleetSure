@@ -5,7 +5,7 @@ public interface ForSale {
 	
 	public double appraiseValue();
 	
-	public boolean transferOwnership(Customer customer);
+	public void transferOwnership(Customer customer);
 	
 	public void removeFromInventory();
 	
