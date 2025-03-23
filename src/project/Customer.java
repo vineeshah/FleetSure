@@ -7,7 +7,7 @@ public class Customer {
     private String name;
     private int memberId;
     private boolean membershipActive;
-    private List<Vehicle> Rentable;
+    private ArrayList<Vehicle> Rentable;
 
      public String getName() {
         return name;
@@ -75,7 +75,7 @@ public class Customer {
         inventory.removeFromInventory(vehicle);
         System.out.println("Here is your rental" + vehicleModel + "glad we can make your trip a little easier.");
     }
-      public List<Vehicle> getRentedVehicles() {
+      public ArrayList<Vehicle> getRentedVehicles() {
         return Rentable;
     }
 
