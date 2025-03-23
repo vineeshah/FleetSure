@@ -1,13 +1,12 @@
 package project;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 	static Scanner scanner = new Scanner(System.in);
 	static ArrayList<Store> allStores = new ArrayList<>();
 	static Customer currentCustomer = null;
-	static List<Employee> employees = new ArrayList<>();	
+	static ArrayList<Employee> employees = new ArrayList<>();	
 	public static int mainMenu() {
 		System.out.println("1: Enter Business perspective");
 		System.out.println("2: Enter Customer perspective");
@@ -81,12 +80,83 @@ public class Main {
 			for(int i = 0; i < currentCustomer.getRentedVehicles().size(); i++) {
 				System.out.println(i+1 +": " +currentCustomer.getRentedVehicles().get(i).toString());
 			}
-			System.out.println("Above are all the cars you own.");
+			System.out.println("Above are all the cars you own/rent.");
+			System.out.println();
+			System.out.println("1: Manage rentals");
+			System.out.println("2: Return to Main menu");
+			
+			String input = scanner.nextLine();
+			exit(input);
+			int picked = Integer.parseInt(input);
+			if(picked == 1) {
+				customerManageRentals();
+			} else if (picked == 2) {
+				System.out.println("Taking you back to the main menu");
+				customerMenu();
+			}
+		}
+	}
+	
+	public static void customerManageRentals() {
+		ArrayList<Vehicle> rentals = new ArrayList<>();
+		System.out.println("1: To extend any existing rentals");
+		System.out.println("2: To return a rental to a store");
+		System.out.println("3: Return to main");
+		System.out.println("Enter a choice (1-3): ");
+		
+		String input = scanner.nextLine();
+		exit(input);
+		int picked = Integer.parseInt(input);
+		if(picked == 1 || picked == 2) {
+			for(Vehicle v: currentCustomer.getRentedVehicles()) {
+				if(v instanceof Rentable) {
+					rentals.add(v);
+				}
+			}
+			for(int i = 0; i < rentals.size(); i++) { //Prints out all rentals in the list
+				System.out.println(i + 1+": " + rentals.get(i).toString());
+			}
+			System.out.println("Pick which vehicle you'd like to edit");
+			
+			String input2 = scanner.nextLine();
+			exit(input2);
+			int vIndex = Integer.parseInt(input2) - 1;
+			Rentable rental = ((Rentable)rentals.get(vIndex));
+				if(picked == 1) {
+					System.out.println("How many days would you like to extend the rental? Enter days:");
+					String days = scanner.nextLine();
+					exit(days);
+					int dayNum = Integer.parseInt(days);
+					
+					rental.setDaysRented(rental.getDaysRented() + dayNum);
+					System.out.println("Successfully extend rental by " + dayNum + " days.");
+					System.out.println("Sending you back to main menu!");
+					System.out.println();
+					customerMenu();
+				} else if (picked == 2) {
+					System.out.println("Which store would you like to return the car to?");
+					System.out.println("Please select a location from the list below.");
+					System.out.println();
+					for(int i = 1; i <= allStores.size(); i++) {
+						System.out.println(i + ": " + allStores.get(i-1).toString());
+					}
+					String store = scanner.nextLine();
+					exit(store);
+					
+					int storeIndex = Integer.parseInt(store) -1;
+					
+					rental.returnToLot(allStores.get(storeIndex));
+					System.out.println("Successfully returned rental to " + allStores.get(storeIndex));
+					System.out.println("Sending you back to main menu!");
+					customerMenu();
+				}
+		} else if (picked == 3) {
+			customerMenu();
 		}
 		
-		System.out.println("Taking you back to the main menu.");
-		customerMenu();
-	}
+		
+	}	
+	
 	public static void displayCars(Store store, int choice) {
 		Inventory inventory = store.getInventory();
 		ArrayList<Vehicle> allCars = inventory.getAllVehicles();
@@ -226,10 +296,41 @@ public class Main {
 			exit(input);
 			int days = Integer.parseInt(input);
 			((Rentable)vehicle).setDaysRented(days);
+			
+			try {
+				((Rentable)vehicle).rent(currentCustomer, days);
+				order.calculateAmountDue();
+			} catch (RentalAvailibilityException e) {
+				System.out.println(e.getMessage());
+				System.out.println("Seems there was an error. Sending you back to the main menu.");
+				System.out.println();
+				customerMenu();
+			}
 		} else {
 			System.out.println("You have selected to purchase a " + vehicle.toString());
+			System.out.println("Would you like to negotiate? (y/n)");
+			String input = scanner.nextLine();
+			exit(input);
+			
+			if(input.equalsIgnoreCase("y")) {
+				
+				boolean success = false;
+				while(!success) {
+					System.out.println("What price do you offer? The car is valued at " + ((Car) vehicle).appraiseValue());
+					String offer = scanner.nextLine();
+					double offerNum = Double.parseDouble(offer);
+					exit(offer);
+					
+					success = ((Car) vehicle).negociatePrice(offerNum);
+					if(success) {
+						order.setAmountDue(offerNum);
+					}
+				}
+			} else {
+				order.calculateAmountDue();
+			}
+			
 		}
-		order.calculateAmountDue();
 		System.out.println(order.toString());
 		if(currentCustomer.activeMembership()) {
 		System.out.println("All members have access to a 20% discount, would you like to use your discount? (y/n)");
@@ -241,13 +342,14 @@ public class Main {
 				Employee e = store.getEmployees().get((int) Math.random()* store.getEmployees().size()); //Picked random employee from store
 				e.Discount(order, .2);
 			}
-		
+			
 		}
 		System.out.println("Please enter your 16 digit credit card number to pay for the order. (No Spaces)");
 		String cardnum = scanner.nextLine();
 		exit(cardnum);
 		if(cardnum.length() == 16 && cardnum.matches("\\d+")) {
 			currentCustomer.getRentedVehicles().add(vehicle);
+			vehicle.getLocation().getInventory().getAllVehicles().remove(vehicle);
 			order.acceptPayment();
 			
 		} else {
@@ -264,12 +366,12 @@ public class Main {
 	public static void payment() {
   		System.out.println("Getting payment.");
 		Store store = allStores.get(0); 
-		List<Employee> employees = store.getEmployees(); 
+		ArrayList<Employee> employees = store.getEmployees(); 
 		Employee employee = employees.get(0); 
 		Customer customer = currentCustomer;
 		Order order = new Order(customer, employee, store); 
 		Inventory inventory = store.getInventory(); 
-		List<Vehicle> vehicles = inventory.getAllVehicles(); 
+		ArrayList<Vehicle> vehicles = inventory.getAllVehicles(); 
 		Vehicle vehicle = vehicles.get(0); 
 		order.addToOrder(vehicle); 
 	    	currentCustomer.pay(order); 
@@ -291,7 +393,7 @@ public class Main {
 
 	//checking for vaild input and returning information
 	public static void displayRentedVehicles() {
-	    List<Vehicle> rentedVehicles = currentCustomer.getRentedVehicles();
+	    ArrayList<Vehicle> rentedVehicles = currentCustomer.getRentedVehicles();
 
 	    if (rentedVehicles.isEmpty()) {
    		    System.out.println("You haven't rented a vehicle yet.");
@@ -573,7 +675,11 @@ public class Main {
         //Prompt User to begin the program.
         int choice = mainMenu();
         if(choice == 1) {
-        	businessMenu();
+        	try {
+				businessMenu();
+			} catch (ObjectOverLimitException e) {
+				e.printStackTrace();
+			}
         } else {
         	createCustomer();
         	customerMenu();
