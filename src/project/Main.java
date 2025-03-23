@@ -7,16 +7,30 @@ public class Main {
 	static ArrayList<Store> allStores = new ArrayList<>();
 	static Customer currentCustomer = null;
 	static ArrayList<Employee> employees = new ArrayList<>();	
-	public static int mainMenu() {
+	public static void mainMenu() {
 		System.out.println("1: Enter Business perspective");
 		System.out.println("2: Enter Customer perspective");
 		System.out.println("Enter 1 or 2 to pick: ");
 		
 		String input = scanner.nextLine();
 		exit(input);
+		try {
+			validateNumInput(input,2);
+			int picked = Integer.parseInt(input);
+			if (picked == 1) {
+				businessMenu();
+			} else {
+				createCustomer();
+			}
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			mainMenu();
+		} catch (ObjectOverLimitException e) {
+			System.out.println(e.getMessage());
+			mainMenu();
+		}
 		
-		int picked = Integer.parseInt(input);
-		return picked;
 	}
 	//Prompts for Customer View
 	
@@ -29,11 +43,21 @@ public class Main {
 		String isMember = scanner.nextLine();
 		boolean membership = false;
 		exit(isMember);
+		
+		try {
+			validateInput(isMember,"y:n");
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			createCustomer();
+		}
 		if(isMember.equalsIgnoreCase("y")) {
 			membership = true;
 		}
 		
 		currentCustomer = new Customer(name, 12345, membership);
+		
+		customerMenu();
 	}
 	public static void customerMenu() {
 		System.out.println("Welcome to our car business. Please select a location from the list below.");
@@ -43,6 +67,14 @@ public class Main {
 		String input = scanner.nextLine();
 		exit(input);
 		
+		try {
+			validateNumInput(input,allStores.size());
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			customerMenu();
+		}
 		int picked = Integer.parseInt(input);
 		storeMenu(allStores.get(picked-1));
 		
@@ -57,8 +89,15 @@ public class Main {
 		System.out.println("5: Exit the program");
 		System.out.println("Enter a choice (1 - 5): ");
 		
+		
 		String input = scanner.nextLine();
 		exit(input);
+		try {
+			validateNumInput(input, 5);
+		} catch (InvalidInputException e) {
+			System.out.println(e.getMessage());
+			storeMenu(store);
+		}
 		
 		int picked = Integer.parseInt(input);
 		
@@ -87,6 +126,15 @@ public class Main {
 			
 			String input = scanner.nextLine();
 			exit(input);
+			
+			try {
+				validateNumInput(input,2);
+				
+			} catch(InvalidInputException e) {
+				System.out.println(e.getMessage());
+				System.out.println();
+				customerViewOwned();
+			}
 			int picked = Integer.parseInt(input);
 			if(picked == 1) {
 				customerManageRentals();
@@ -106,6 +154,16 @@ public class Main {
 		
 		String input = scanner.nextLine();
 		exit(input);
+		
+		try {
+			validateNumInput(input,3);
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			customerManageRentals();
+		}
+		
 		int picked = Integer.parseInt(input);
 		if(picked == 1 || picked == 2) {
 			for(Vehicle v: currentCustomer.getRentedVehicles()) {
@@ -120,12 +178,31 @@ public class Main {
 			
 			String input2 = scanner.nextLine();
 			exit(input2);
+			
+			try {
+				validateNumInput(input2, rentals.size());
+				
+			} catch(InvalidInputException e) {
+				System.out.println(e.getMessage());
+				System.out.println();
+				customerManageRentals();
+			}
+			
 			int vIndex = Integer.parseInt(input2) - 1;
 			Rentable rental = ((Rentable)rentals.get(vIndex));
 				if(picked == 1) {
 					System.out.println("How many days would you like to extend the rental? Enter days:");
 					String days = scanner.nextLine();
 					exit(days);
+					
+					try {
+						validateNumInput(days, Integer.MAX_VALUE); //As long as the amount of days is a positive integer, it will be valid.
+						
+					} catch(InvalidInputException e) {
+						System.out.println(e.getMessage());
+						System.out.println();
+						customerManageRentals();
+					}
 					int dayNum = Integer.parseInt(days);
 					
 					rental.setDaysRented(rental.getDaysRented() + dayNum);
@@ -143,7 +220,17 @@ public class Main {
 					String store = scanner.nextLine();
 					exit(store);
 					
+					try {
+						validateNumInput(store,allStores.size());
+						
+					} catch(InvalidInputException e) {
+						System.out.println(e.getMessage());
+						System.out.println();
+						customerMenu();
+					}
+					
 					int storeIndex = Integer.parseInt(store) -1;
+					
 					
 					rental.returnToLot(allStores.get(storeIndex));
 					System.out.println("Successfully returned rental to " + allStores.get(storeIndex));
@@ -170,19 +257,27 @@ public class Main {
 			System.out.println(i+1 +": " + allCars.get(i).toString());
 		}
 		
-		System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
+		System.out.println("Enter the number of the car you are interested in. If there is none, enter 0. ");
 		String input = scanner.nextLine();
 		exit(input);
 		
-		int picked = Integer.parseInt(input);
-		
-		if(picked != -1 && picked < allCars.size()) {
-			processOrder(allCars.get(picked-1));
-		} else {
-			System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
+		try {
+			validateNumInput(input,allCars.size());
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
 			System.out.println();
 			customerMenu();
 		}
+		
+		int picked = Integer.parseInt(input);
+		
+		if(picked == 0) {
+		System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
+		System.out.println();
+		customerMenu();
+		}
+		processOrder(allCars.get(picked-1));
 	}
 	
 	public static void searchCustomCar(Store store) {
@@ -242,12 +337,21 @@ public class Main {
 				System.out.println(i+1 +": " + matchingCars.get(i).toString());
 			}
 		
-			System.out.println("Enter the number of the car you are interested in. If there is none, enter -1. ");
+			System.out.println("Enter the number of the car you are interested in. If there is none, enter 0. ");
 			String input = scanner.nextLine();
 			exit(input);
+			
+			try {
+				validateNumInput(input,matchingCars.size());
+				
+			} catch(InvalidInputException e) {
+				System.out.println(e.getMessage());
+				System.out.println();
+				customerMenu();
+			}
 			int picked = Integer.parseInt(input);
 		
-			if(picked != -1 && picked < matchingCars.size()) {
+			if(picked != 0 ) {
 				processOrder(matchingCars.get(picked-1));
 			} else {
 				System.out.println("Sorry you didn't find an option you liked. Returning you to the main menu.");
@@ -294,6 +398,16 @@ public class Main {
 			System.out.println("You have selected a rental. How many days would you like to rent it? Enter number of days: ");
 			String input = scanner.nextLine();
 			exit(input);
+			
+			try {
+				validateNumInput(input,Integer.MAX_VALUE);
+				
+			} catch(InvalidInputException e) {
+				System.out.println(e.getMessage());
+				System.out.println();
+				customerMenu();
+			}
+			
 			int days = Integer.parseInt(input);
 			((Rentable)vehicle).setDaysRented(days);
 			
@@ -311,7 +425,14 @@ public class Main {
 			System.out.println("Would you like to negotiate? (y/n)");
 			String input = scanner.nextLine();
 			exit(input);
-			
+			try {
+				validateInput(input,"y:n");
+				
+			} catch(InvalidInputException e) {
+				System.out.println(e.getMessage());
+				System.out.println();
+				customerMenu();
+			}
 			if(input.equalsIgnoreCase("y")) {
 				
 				boolean success = false;
@@ -336,6 +457,14 @@ public class Main {
 		System.out.println("All members have access to a 20% discount, would you like to use your discount? (y/n)");
 		String input = scanner.nextLine();
 		exit(input);
+		try {
+			validateInput(input,"y:n");
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			customerMenu();
+		}
 		
 			if(input.equalsIgnoreCase("y")) {
 				Store store = vehicle.getLocation();
@@ -401,7 +530,7 @@ public class Main {
     		    System.out.println("Here is what you have rented.");
 	    for (Vehicle vehicle : rentedVehicles) {
  		    System.out.println(vehicle);
-		}   	 	
+			}   	 	
 	    }
 	}
 	//Jorge ^^^
@@ -412,8 +541,16 @@ public class Main {
 		for(int i = 0; i < allStores.size(); i++) {
 			System.out.println(i+1 + ": " + allStores.get(i).toString());
 		}
-		System.out.println(allStores.size()+ 1 + ": To add a new location");
-		int picked = scanner.nextInt();
+		String input = scanner.nextLine();
+		try {
+			validateNumInput(input, allStores.size());
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			businessMenu();
+		}
+		int picked = Integer.parseInt(input);
 		if(picked < allStores.size())
 		businessStoreMenu(allStores.get(picked-1));
 	}
@@ -424,7 +561,18 @@ public class Main {
 		System.out.println("3: Exit the program");
 		System.out.println("Enter a choice (1 - 3): ");
 		
-		int picked = scanner.nextInt();
+		
+		String input = scanner.nextLine();
+		
+		try {
+			validateNumInput(input,3);
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			businessMenu();
+		}
+		int picked = Integer.parseInt(input);
 		if(picked == 1) {
 			manageVehiclesMenu();
 		}else if(picked == 2) {
@@ -441,8 +589,17 @@ public class Main {
 	    System.out.println("3: Delete Vehicle");
 	    System.out.println("Enter a choice (1 - 3): ");
 
-	    int picked = scanner.nextInt();
-	    scanner.nextLine();  
+	    String input = scanner.nextLine();
+	    
+	    try {
+			validateNumInput(input,3);
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			businessMenu();
+		}
+	    int picked = Integer.parseInt(input);
 
 	    if (picked == 1) {
 	        // Adding a regular vehicle
@@ -538,11 +695,19 @@ public class Main {
 		System.out.println("2: Delete Employees");
 		System.out.println("3: Pay Employees");
 		System.out.println("4: Calculate Profit");
-		System.out.println("Enter a choice (1): ");
+		System.out.println("Enter a choice (1- 4): ");
 		
 		
-		int picked = scanner.nextInt();
-	    scanner.nextLine();  
+		String input = scanner.nextLine();
+		try {
+			validateNumInput(input,4);
+			
+		} catch(InvalidInputException e) {
+			System.out.println(e.getMessage());
+			System.out.println();
+			businessMenu();
+		}  
+		int picked = Integer.parseInt(input);
 
 	    if (picked == 1) {
 			System.out.println("Please enter the Employee's Name: ");
@@ -578,7 +743,7 @@ public class Main {
 	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
 	            	Store store = allStores.get(i);
 	            	store.payEmployees(store.calculateProfit()/employees.size());
-	            	mainMenu();
+	            	businessMenu();
 	            }
 	        }
 	    }else if(picked == 4) {
@@ -588,7 +753,7 @@ public class Main {
 	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
 	            	Store store = allStores.get(i);
 	            	store.calculateProfit();
-	            	mainMenu();
+	            	businessMenu();
 	            }
 	        }
 	    }    
@@ -607,6 +772,28 @@ public class Main {
 		System.exit(0);
 	}
 	
+	//Input Validation methods
+	public static void validateInput(String s, String expected) throws InvalidInputException {
+		String[] expectedInputs = expected.split(":"); //Separate all valid inputs by :
+		for(String possible: expectedInputs) {
+			if(s.equalsIgnoreCase(possible)) {
+				return;
+			}
+		} 
+		throw new InvalidInputException(s); // If it reached this, then the input is not in expected values.
+	}
+	
+	public static void validateNumInput(String s, int range) throws InvalidInputException {
+		if(s.matches("\\d+")) {  //Safe to parse int because only numbers
+			int sInt = Integer.parseInt(s);
+			
+			if(sInt > range) { //If not in range of expected values, throw the error
+				throw new InvalidInputException(s);
+			}
+		} else {
+		throw new InvalidInputException(s); //If not a number is an error for sure.
+		}
+	}
     public static void main(String[] args) throws ObjectOverLimitException {
     	//Preloading the system with Generic values
         try {
@@ -671,18 +858,8 @@ public class Main {
 			e.printStackTrace();
 		}
       
-       
         //Prompt User to begin the program.
-        int choice = mainMenu();
-        if(choice == 1) {
-        	try {
-				businessMenu();
-			} catch (ObjectOverLimitException e) {
-				e.printStackTrace();
-			}
-        } else {
-        	createCustomer();
-        	customerMenu();
-        }  
+        mainMenu();
+               
     }
 }
