@@ -117,7 +117,6 @@ public class Tests {
         Employee employee = new Employee(name, id, store);
         Order order = new Order(new Customer("Duncan Hall", 9, true), employee, store);
         order.setAmountDue(500);
-
         assertEquals(name, employee.getName());
         assertEquals(id, employee.getId());
         assertEquals(store, employee.getStore());
