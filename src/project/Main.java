@@ -226,10 +226,41 @@ public class Main {
 			exit(input);
 			int days = Integer.parseInt(input);
 			((Rentable)vehicle).setDaysRented(days);
+			
+			try {
+				((Rentable)vehicle).rent(currentCustomer, days);
+				order.calculateAmountDue();
+			} catch (RentalAvailibilityException e) {
+				System.out.println(e.getMessage());
+				System.out.println("Seems there was an error. Sending you back to the main menu.");
+				System.out.println();
+				customerMenu();
+			}
 		} else {
 			System.out.println("You have selected to purchase a " + vehicle.toString());
+			System.out.println("Would you like to negotiate? (y/n)");
+			String input = scanner.nextLine();
+			exit(input);
+			
+			if(input.equalsIgnoreCase("y")) {
+				
+				boolean success = false;
+				while(!success) {
+					System.out.println("What price do you offer? The car is valued at " + ((Car) vehicle).appraiseValue());
+					String offer = scanner.nextLine();
+					double offerNum = Double.parseDouble(offer);
+					exit(offer);
+					
+					success = ((Car) vehicle).negociatePrice(offerNum);
+					if(success) {
+						order.setAmountDue(offerNum);
+					}
+				}
+			} else {
+				order.calculateAmountDue();
+			}
+			
 		}
-		order.calculateAmountDue();
 		System.out.println(order.toString());
 		if(currentCustomer.activeMembership()) {
 		System.out.println("All members have access to a 20% discount, would you like to use your discount? (y/n)");
@@ -241,13 +272,14 @@ public class Main {
 				Employee e = store.getEmployees().get((int) Math.random()* store.getEmployees().size()); //Picked random employee from store
 				e.Discount(order, .2);
 			}
-		
+			
 		}
 		System.out.println("Please enter your 16 digit credit card number to pay for the order. (No Spaces)");
 		String cardnum = scanner.nextLine();
 		exit(cardnum);
 		if(cardnum.length() == 16 && cardnum.matches("\\d+")) {
 			currentCustomer.getRentedVehicles().add(vehicle);
+			vehicle.getLocation().getInventory().getAllVehicles().remove(vehicle);
 			order.acceptPayment();
 			
 		} else {
@@ -552,7 +584,11 @@ public class Main {
         //Prompt User to begin the program.
         int choice = mainMenu();
         if(choice == 1) {
-        	businessMenu();
+        	try {
+				businessMenu();
+			} catch (ObjectOverLimitException e) {
+				e.printStackTrace();
+			}
         } else {
         	createCustomer();
         	customerMenu();

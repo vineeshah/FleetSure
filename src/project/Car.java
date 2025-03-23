@@ -23,6 +23,9 @@ public class Car extends Vehicle implements ForSale{
 	
 	// Setters and Getters
 	public double getCurrentPrice() {
+		if(currentPrice == 0) {
+			currentPrice = this.calculateValue();
+		}
 		return currentPrice;
 	}
 	
@@ -58,11 +61,11 @@ public class Car extends Vehicle implements ForSale{
 	public boolean negociatePrice(double offer) {
 		this.setCurrentPrice(this.appraiseValue());
 		double currentPrice = this.getCurrentPrice();
-		if(Math.random() > .5 && Math.abs(currentPrice - offer) < currentPrice*.05) {
+		if(Math.random() > .5 && Math.floor(currentPrice - offer) < currentPrice*.05) {
 			System.out.println("Congratulations! We've Accepted your offer.");
 			return true;
 		} else {
-			System.out.println("My apologies, unfortunately we will have to deny your offer. ");
+			System.out.println("My apologies, unfortunately we will have to deny your offer. Please try again.");
 			return false;
 		}
 	}
@@ -78,12 +81,13 @@ public class Car extends Vehicle implements ForSale{
 	public void sell(Customer customer, double price) {
 		this.transferOwnership(customer);
 		this.getLocation().setRevenue(this.getLocation().getRevenue() + price);
-		
+		customer.getRentedVehicles().add(this);
+		this.markAsSold();
 	}
 
 	@Override
 	public double appraiseValue() {
-		double value = this.getTotalValue();
+		double value = this.calculateValue();
 		if(this.isGoodCondition()) {
 			value *= 1.075;
 		} else {
