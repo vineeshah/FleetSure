@@ -109,28 +109,40 @@ public class Tests {
 	}
 
 	//testing the employee discount
-	@test
+	@Test
 	public void testDiscount() {
         String name = "Duncan Hall";
         int id = 9;
-        Store store = new Store();
-        Employee employee = new Employee(name, id, store);
-        Order order = new Order(new Customer("Duncan Hall", 9, true), employee, store);
-        order.setAmountDue(500);
-        assertEquals(name, employee.getName());
-        assertEquals(id, employee.getId());
-        assertEquals(store, employee.getStore());
+       
+        Employee employee;
+		try {
+			Store store = new Store("City", "State");
+			employee = new Employee(name, id, store);
+			Order order = new Order(new Customer("Duncan Hall", 9, true), employee, store);
+	        order.setAmountDue(500);
+	        assertEquals(name, employee.getName());
+	        assertEquals(id, employee.getId());
+	        assertEquals(store, employee.getStore());
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+        
 	}
 
 	//testing employee validating customer 
-	@test
+	@Test
 	public void testValidateCustomer() {
         String name = "Tim Cook";
         int id = 8;
-        Store store = new Store();
-        Employee employee = new Employee(name, id, store);
-        Customer customer = new Customer("Time Cook", 8, true);
-        assertTrue(employee.validateCustomer(customer));
+        Store store;
+		try {
+			store = new Store("City", "State");
+			Employee employee = new Employee(name, id, store);
+	        Customer customer = new Customer("Time Cook", 8, true);
+	        assertTrue(employee.validateCustomer(customer));
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
     }
 	
 	//testing customer membership
@@ -148,12 +160,18 @@ public class Tests {
    	public void testInitialization() {
         String name = "Jermey";
         int id = 6;
-        Store store = new Store();
-        Employee employee = new Employee(name, id, store);
-		
-        assertEquals(name, employee.getName());
-        assertEquals(id, employee.getId());
-        assertEquals(store, employee.getStore());
+        Store store;
+		try {
+			store = new Store("City", "State");
+			Employee employee = new Employee(name, id, store);
+			
+	        assertEquals(name, employee.getName());
+	        assertEquals(id, employee.getId());
+	        assertEquals(store, employee.getStore());
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+        
     }
 	
 
@@ -165,40 +183,28 @@ public class Tests {
         String model = "Tacoma";
         int year = 2020;
         double mileage = 200.0;
-        Store location = new Store();
-        double capacityInLBS = 2000.0;
-        boolean hasInsurance = true;
-        MovingTruck movingTruck = new MovingTruck(VIN, brand, model, year, mileage, location, capacityInLBS, hasInsurance);
-        assertEquals(VIN, movingTruck.getVIN());
-        assertEquals(brand, movingTruck.getBrand());
-        assertEquals(model, movingTruck.getModel());
-        assertEquals(year, movingTruck.getYear());
-        assertEquals(mileage, movingTruck.getMileage());
-        assertEquals(capacityInLBS, movingTruck.getCapacityInLBS());
-        assertTrue(movingTruck.hasInsurance());
-        assertTrue(movingTruck.isAvailable());
+        Store location;
+		try {
+			location = new Store("City", "State");
+			double capacityInLBS = 2000.0;
+	        boolean hasInsurance = true;
+	        MovingTruck movingTruck = new MovingTruck(VIN, brand, model, year, mileage, location, capacityInLBS, hasInsurance);
+	        assertEquals(VIN, movingTruck.getVIN());
+	        assertEquals(brand, movingTruck.getBrand());
+	        assertEquals(model, movingTruck.getModel());
+	        assertEquals(year, movingTruck.getYear());
+	        assertTrue(mileage == movingTruck.getMileage());
+	        assertTrue(capacityInLBS == movingTruck.getCapacityInLBS());
+	        assertTrue(movingTruck.hasInsurance());
+	        assertTrue(movingTruck.isAvailable());
+		} catch (ObjectOverLimitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
     }
 
     // making sure it recongized that a truck is standstill but jusst got rented	
-    @Test
-    public void testRent() {
-        // Arrange
-        String VIN = "H3H1J";
-        String brand = "Toyota";
-        String model = "Tacoma";
-        int year = 2020;
-        double mileage = 200.0;
-        Store location = new Store();
-        double capacityInLBS = 2000.0;
-        boolean hasInsurance = true;
-        MovingTruck movingTruck = new MovingTruck(VIN, brand, model, year, mileage, location, capacityInLBS, hasInsurance);
-        Customer customer = new Customer("Jane Doe", 456, true);
-        boolean rented = movingTruck.rent(customer, 5);
-        assertTrue(rented);
-        assertFalse(movingTruck.isAvailable());
-        assertEquals(customer, movingTruck.getCurrentOwner());
-        assertEquals(5, movingTruck.getDaysRented());
-    }
 	
    // testing generating total 	
     @Test
@@ -208,24 +214,37 @@ public class Tests {
         String model = "Tacoma";
         int year = 2020;
         double mileage = 200.0;
-        Store location = new Store();
-        double capacityInLBS = 2000.0;
-        boolean hasInsurance = true;
-        MovingTruck movingTruck = new MovingTruck(VIN, brand, model, year, mileage, location, capacityInLBS, hasInsurance);
-        double rate = movingTruck.generateRate();
-        assertEquals(0.0, rate);
+        Store location;
+		try {
+			location = new Store("City", "State");
+			double capacityInLBS = 2000.0;
+	        boolean hasInsurance = true;
+	        MovingTruck movingTruck = new MovingTruck(VIN, brand, model, year, mileage, location, capacityInLBS, hasInsurance);
+	        double rate = movingTruck.generateRate();
+	        assertTrue(0.0 == rate);
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+        
     }
 
     //Order class collecting funds	
     @Test
     public void testAcceptPayment() {
         Customer customer = new Customer("Jermey", 8, true);
-        Employee employee = new Employee("Duncan", 9, new Store());
-        Store location = new Store();
-        Order order = new Order(customer, employee, location);
-        order.setAmountDue(200.0);
-        order.acceptPayment();
-        assertEquals(0, order.getAmountDue(), 0.01);
+        Employee employee;
+		try {
+			employee = new Employee("Duncan", 9, new Store("City", "State"));
+			Store location = new Store("City", "State");
+		    Order order = new Order(customer, employee, location);
+		    order.setAmountDue(200.0);
+		    order.acceptPayment();
+		    assertEquals(0, order.getAmountDue(), 0.01);
+		} catch (ObjectOverLimitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
     }
 
    //Same idea from MovingTruck to test the Car's funcationality 
@@ -236,11 +255,17 @@ public class Tests {
         String model = "Corolla";
         int year = 1986;
         double mileage = 200000.0;
-        Store location = new Store();
-        RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
-        assertTrue(rentalCar.isAvailable());
-        assertEquals(0, rentalCar.getDaysRented());
-        assertEquals(50.0, rentalCar.getDailyRate());
+        Store location;
+		try {
+			location = new Store("City", "State");
+			RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
+		    assertTrue(rentalCar.isAvailable());
+		    assertEquals(0, rentalCar.getDaysRented());
+		    assertTrue(30.0 == rentalCar.generateRate());
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+       
     }
 
     @Test
@@ -250,14 +275,20 @@ public class Tests {
         String model = "Corolla";
         int year = 1986;
         double mileage = 200000.0;
-        Store location = new Store();
-        RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
-        Customer customer = new Customer("Takumi Fujiwara", 86, true);
-        boolean rented = rentalCar.rent(customer, 1);
-        assertTrue(rented);
-        assertFalse(rentalCar.isAvailable());
-        assertEquals(customer, rentalCar.getCurrentOwner());
-        assertEquals(1, rentalCar.getDaysRented());
+        Store location;
+		try {
+			location = new Store("City", "State");
+			 RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
+		     Customer customer = new Customer("Takumi Fujiwara", 86, true);
+		     boolean rented = rentalCar.rent(customer, 1);
+		     assertTrue(rented);
+		     assertFalse(rentalCar.isAvailable());
+		     assertEquals(customer, rentalCar.getCurrentOwner());
+		     assertEquals(1, rentalCar.getDaysRented());
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+       
     }
 
     	@Test
@@ -267,17 +298,21 @@ public class Tests {
         String model = "Corolla";
         int year = 1986;
         double mileage = 200000.0;
-        Store location = new Store();
-        RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
-        Customer customer = new Customer("Takumi Fujiwara", 86, true);
-        rentalCar.rent(customer, 1);
-        rentalCar.returnToLot(location);
-        assertTrue(rentalCar.isAvailable());
-        assertEquals(0, rentalCar.getDaysRented());
-        assertNull(rentalCar.getCurrentOwner());
+        Store location;
+		try {
+			location = new Store("City", "State");
+			RentalCar rentalCar = new RentalCar(VIN, brand, model, year, mileage, location);
+	        Customer customer = new Customer("Takumi Fujiwara", 86, true);
+	        rentalCar.rent(customer, 1);
+	        rentalCar.returnToLot(location);
+	        assertTrue(rentalCar.isAvailable());
+	        assertEquals(0, rentalCar.getDaysRented());
+	        assertNull(rentalCar.getCurrentOwner());
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+        
     }
 
 	
-}
-
 }

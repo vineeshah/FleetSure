@@ -83,6 +83,7 @@ public class RentalCar extends Vehicle implements Rentable {
 		
 		inventory.addVehicle(this);
 		this.setAvailibility(true);
+		this.setCurrentOwner(null);
 		this.setDaysRented(0);
 	}
 
