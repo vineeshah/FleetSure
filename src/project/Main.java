@@ -7,6 +7,7 @@ public class Main {
 	static Scanner scanner = new Scanner(System.in);
 	static ArrayList<Store> allStores = new ArrayList<>();
 	static Customer currentCustomer = null;
+	static List<Employee> employees = new ArrayList<>();	
 	public static int mainMenu() {
 		System.out.println("1: Enter Business perspective");
 		System.out.println("2: Enter Customer perspective");
@@ -304,7 +305,7 @@ public class Main {
 	//Jorge ^^^
 	
 	//Prompts for Business View
-	public static void businessMenu() {
+	public static void businessMenu() throws ObjectOverLimitException {
 		System.out.println("Choose which location to manage below.");
 		for(int i = 0; i < allStores.size(); i++) {
 			System.out.println(i+1 + ": " + allStores.get(i).toString());
@@ -314,7 +315,7 @@ public class Main {
 		if(picked < allStores.size())
 		businessStoreMenu(allStores.get(picked-1));
 	}
-	public static void businessStoreMenu(Store store) {
+	public static void businessStoreMenu(Store store) throws ObjectOverLimitException {
 		System.out.println(store.toString());
 		System.out.println("1: Manage Vehicles");
 		System.out.println("2: Manage Employees");
@@ -322,18 +323,156 @@ public class Main {
 		System.out.println("Enter a choice (1 - 3): ");
 		
 		int picked = scanner.nextInt();
+		if(picked == 1) {
+			manageVehiclesMenu();
+		}else if(picked == 2) {
+			manageEmployeeMenu();
+		}else if(picked == 3) {
+			exit("exit");
+		}
 		
 	}
 	
-	public static void manageVehiclesMenu() {
-		System.out.println("1: Add Vehicles");
-		System.out.println("2: Delete Vehicles");
+	public static void manageVehiclesMenu() throws ObjectOverLimitException {
+	    System.out.println("1: Add Regular Vehicle");
+	    System.out.println("2: Add Rentable Vehicle");
+	    System.out.println("3: Delete Vehicle");
+	    System.out.println("Enter a choice (1 - 3): ");
+
+	    int picked = scanner.nextInt();
+	    scanner.nextLine();  
+
+	    if (picked == 1) {
+	        // Adding a regular vehicle
+	        System.out.println("What is the vehicle's VIN?");
+	        String vin = scanner.nextLine();
+	        System.out.println("What is the vehicle's brand?");
+	        String brand = scanner.nextLine();
+	        System.out.println("What is the vehicle's model?");
+	        String model = scanner.nextLine();
+	        System.out.println("Which year is this vehicle from?");
+	        int year = scanner.nextInt();
+	        System.out.println("What is the vehicle's mileage?");
+	        double mil = scanner.nextDouble();
+	        scanner.nextLine();  // Consume the newline character left by nextDouble()
+	        System.out.println("Where do you want the vehicle to be stored?");
+	        String storeName = scanner.nextLine();
+
+	        for (int i = 0; i < allStores.size(); i++) {
+	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
+	                Store store = allStores.get(i);
+	                Vehicle vehicle = new Car(vin, brand, model, year, mil, store);
+	                allStores.get(i).getInventory().addVehicle(vehicle);
+	            }
+	        }
+	    } 
+	    else if (picked == 2) {
+	        // Add a rentable vehicle
+	        System.out.println("What is the vehicle's VIN?");
+	        String vin = scanner.nextLine();
+	        System.out.println("What is the vehicle's brand?");
+	        String brand = scanner.nextLine();
+	        System.out.println("What is the vehicle's model?");
+	        String model = scanner.nextLine();
+	        System.out.println("Which year is this vehicle from?");
+	        int year = scanner.nextInt();
+	        System.out.println("What is the vehicle's mileage?");
+	        double mil = scanner.nextDouble();
+	        scanner.nextLine();  
+	        System.out.println("Where do you want the vehicle to be stored?");
+	        String storeName = scanner.nextLine();
+	        System.out.println("What is the rental price per day?");
+	        
+
+	        for (int i = 0; i < allStores.size(); i++) {
+	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
+	                Store store = allStores.get(i);
+	                RentalCar rentableVehicle = new RentalCar(vin, brand, model, year, mil, store);
+	                allStores.get(i).getInventory().addVehicle(rentableVehicle);
+	            }
+	        }
+	    } 
+	    else if (picked == 3) {
+	    	System.out.println("Enter the store where the vehicle is located:");
+	        String storeName = scanner.nextLine();
+
+	        Store storeToDeleteFrom = null;
+	        for (int i = 0; i < allStores.size(); i++) {
+	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
+	                storeToDeleteFrom = allStores.get(i);
+	                break;
+	            }
+	        }
+
+	        if (storeToDeleteFrom == null) {
+	            System.out.println("Store not found!");
+	            return;  // Exit if store not found
+	        }
+
+	        System.out.println("Enter the vehicle's brand to delete:");
+	        String brand = scanner.nextLine();
+	        System.out.println("Enter the vehicle's model to delete:");
+	        String model = scanner.nextLine();
+
+	        boolean vehicleFound = false;
+	        for (Vehicle vehicle : storeToDeleteFrom.getInventory().getAllVehicles()) {
+	            if (vehicle.getBrand().equalsIgnoreCase(brand) && vehicle.getModel().equalsIgnoreCase(model)) {
+	                storeToDeleteFrom.getInventory().getAllVehicles().remove(vehicle);
+	                System.out.println("Vehicle successfully deleted!");
+	                vehicleFound = true;
+	                break;
+	            }
+	        }
+
+	        if (!vehicleFound) {
+	            System.out.println("Vehicle not found with the specified brand and model.");
+	        }
+	    }
 	}
+
 	
-	public static void manageEmployeeMenu() {
+	public static void manageEmployeeMenu() throws ObjectOverLimitException {
 		System.out.println("1: Add Employees");
 		System.out.println("2: Delete Employees");
+		System.out.println("Enter a choice (1 or 2): ");
+		
+		
+		int picked = scanner.nextInt();
+	    scanner.nextLine();  
+
+	    if (picked == 1) {
+		
+			System.out.println("Please enter the Employee's Name: ");
+	        String name = scanner.nextLine();
+	        System.out.println("Please enter the Employee's ID: ");
+	        int id = scanner.nextInt();
+	        scanner.nextLine(); 
+	        System.out.println("Please enter the Store Name where the Employee works: ");
+	        String storeName = scanner.nextLine();
+	        for (int i = 0; i < allStores.size(); i++) {
+	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
+	            	Store store = allStores.get(i);
+	            	employees.add(new Employee(name, id, store));
+	            	System.out.println("Employee added succesfully!!");
+	            	mainMenu();
+	            }
+	      
+	        }
+	    }else if(picked == 2) {
+	    	System.out.println("Please enter the Employee's Name: ");
+	        String name = scanner.nextLine();
+	        for (Employee employee: employees) {
+	        	if(employee.getName().equalsIgnoreCase(name)){
+	        		employees.remove(employee);
+	        		System.out.println("Employee deleted succesfully!!");
+	        		mainMenu();
+	        	}
+	        }
+	    }
+        
+		
 	}
+
 	
 	//Exit method
 	public static void exit(String input) { //Takes in a input
@@ -352,8 +491,13 @@ public class Main {
         	allStores.add(new Store("San Diego","California"));
         	allStores.add(new Store("San Francisco", "California"));
         	Employee employee1 = new Employee("Vincent", 100, allStores.get(0));
+            employees.add(employee1);
+            
             Employee employee2 = new Employee("Harry", 101, allStores.get(1));
+            employees.add(employee2);
+            
             Employee employee3 = new Employee("Joe", 102, allStores.get(2));
+            employees.add(employee3);
             
             allStores.get(0).getEmployees().add(employee1);
             allStores.get(1).getEmployees().add(employee2);

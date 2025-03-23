@@ -30,4 +30,8 @@ Ayman
 
 Jorge
 -Customer class and setting exception if the user leaves a prompt blank
--Employee class and setting exceptions for null items if a prompt is left blank 
+-Employee class and setting exceptions for null items if a prompt is left blank \
+
+Vineet 
+-Vehicle class and interfaces
+-Business menu and structure of Main
