@@ -76,7 +76,7 @@ public class Customer {
         System.out.println("Here is your rental" + vehicleModel + "glad we can make your trip a little easier.");
     }
       public List<Vehicle> getRentedVehicles() {
-        return new ArrayList<>(Rentable);
+        return Rentable;
     }
 
 }

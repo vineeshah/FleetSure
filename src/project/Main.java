@@ -53,8 +53,9 @@ public class Main {
 		System.out.println("1: Search for Rentals");
 		System.out.println("2: Search for Cars on Sale");
 		System.out.println("3: Custom Search");
-		System.out.println("4: Exit the program");
-		System.out.println("Enter a choice (1 - 4): ");
+		System.out.println("4: View the cars you have selected");
+		System.out.println("5: Exit the program");
+		System.out.println("Enter a choice (1 - 5): ");
 		
 		String input = scanner.nextLine();
 		exit(input);
@@ -66,11 +67,25 @@ public class Main {
 			displayCars(store, picked);
 		} else if(picked == 3){
 			searchCustomCar(store);
+		} else if (picked == 4) {
+			customerViewOwned();
 		} else {
 			exit("exit");
 		}
 	}
-	
+	public static void customerViewOwned() {
+		if(currentCustomer.getRentedVehicles().size() == 0) {
+			System.out.println("You don't seem to own any vehicles at this time.");
+		} else {
+			for(int i = 0; i < currentCustomer.getRentedVehicles().size(); i++) {
+				System.out.println(i+1 +": " +currentCustomer.getRentedVehicles().get(i).toString());
+			}
+			System.out.println("Above are all the cars you own.");
+		}
+		
+		System.out.println("Taking you back to the main menu.");
+		customerMenu();
+	}
 	public static void displayCars(Store store, int choice) {
 		Inventory inventory = store.getInventory();
 		ArrayList<Vehicle> allCars = inventory.getAllVehicles();
@@ -213,6 +228,7 @@ public class Main {
 		} else {
 			System.out.println("You have selected to purchase a " + vehicle.toString());
 		}
+		order.calculateAmountDue();
 		System.out.println(order.toString());
 		if(currentCustomer.activeMembership()) {
 		System.out.println("All members have access to a 20% discount, would you like to use your discount? (y/n)");
@@ -230,7 +246,9 @@ public class Main {
 		String cardnum = scanner.nextLine();
 		exit(cardnum);
 		if(cardnum.length() == 16 && cardnum.matches("\\d+")) {
+			currentCustomer.getRentedVehicles().add(vehicle);
 			order.acceptPayment();
+			
 		} else {
 			System.out.println("We could not validate this purchase. Please try again later.");
 		}
