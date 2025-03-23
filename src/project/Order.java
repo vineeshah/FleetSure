@@ -18,7 +18,6 @@ public class Order {
 	}
 	//Getters & Setters
 	public double getAmountDue() {
-		calculateAmountDue();
 		return amountDue;
 	}
 	
@@ -48,6 +47,7 @@ public class Order {
 	}
 	
 	public double calculateAmountDue() {
+		amountDue = 0;
 		for(Vehicle vehicle: itemsInOrder) {
 			if(vehicle instanceof Rentable) {
 				Rentable rental = (Rentable) vehicle;

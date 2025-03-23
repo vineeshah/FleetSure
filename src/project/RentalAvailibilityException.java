@@ -1,7 +1,7 @@
 package project;
 
 public class RentalAvailibilityException extends Exception {
-	public RentalAvailibilityException() {
-		super("This rental is already being rented by someone else. Please select another vehicle.");
+	public RentalAvailibilityException(Vehicle vehicle) {
+		super("This " + vehicle.getBrand() + " " + vehicle.getModel() +" is unavailable at this time. Please try again later.");
 	}
 }

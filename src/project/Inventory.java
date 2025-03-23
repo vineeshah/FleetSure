@@ -71,5 +71,4 @@ public class Inventory {
 	public int getTotalInventory() {
 		return allVehicles.size();
 	}
-	
 }

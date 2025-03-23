@@ -214,6 +214,18 @@ public class Main {
 			System.out.println("You have selected to purchase a " + vehicle.toString());
 		}
 		System.out.println(order.toString());
+		if(currentCustomer.activeMembership()) {
+		System.out.println("All members have access to a 20% discount, would you like to use your discount? (y/n)");
+		String input = scanner.nextLine();
+		exit(input);
+		
+			if(input.equalsIgnoreCase("y")) {
+				Store store = vehicle.getLocation();
+				Employee e = store.getEmployees().get((int) Math.random()* store.getEmployees().size()); //Picked random employee from store
+				e.Discount(order, .2);
+			}
+		
+		}
 		System.out.println("Please enter your 16 digit credit card number to pay for the order. (No Spaces)");
 		String cardnum = scanner.nextLine();
 		exit(cardnum);

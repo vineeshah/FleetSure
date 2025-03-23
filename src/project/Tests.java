@@ -2,10 +2,17 @@ package project;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+
+import org.junit.Before;
 import org.junit.Test;
 
 public class Tests {
-	
+	@Before
+	public void resetCounter() {
+		Car.currentObjects = 0;
+		RentalCar.currentObjects = 0;
+		MovingTruck.currentObjects = 0;
+	}
 	@Test
 	public void searchFunctionTest() {
 		Inventory inventory = new Inventory();
@@ -79,5 +86,25 @@ public class Tests {
 		
 	}
 	
-	
+	@Test
+	public void discountOrderTest() {
+		try {
+			Car car = new Car("112222","Toyota", "Prius", 2001, 100000, null);
+			Order order = new Order(null, null, null);
+			Employee em = new Employee("Joe", 123455432, new Store("City", "State"));
+			
+			double value = car.calculateValue();
+			assertTrue(value == 6750);
+			order.addToOrder(car);
+			order.calculateAmountDue();
+			em.Discount(order, .2);
+			
+			assertTrue(order.getAmountDue() == 5400);
+		} catch (ObjectOverLimitException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
 }
