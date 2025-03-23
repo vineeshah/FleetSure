@@ -541,18 +541,57 @@ public class Main {
 		for(int i = 0; i < allStores.size(); i++) {
 			System.out.println(i+1 + ": " + allStores.get(i).toString());
 		}
+		System.out.println(allStores.size() + 1 +": Create a new location");
 		String input = scanner.nextLine();
+		
 		try {
-			validateNumInput(input, allStores.size());
-			
+			validateNumInput(input, allStores.size() + 1);
 		} catch(InvalidInputException e) {
 			System.out.println(e.getMessage());
 			System.out.println();
 			businessMenu();
 		}
 		int picked = Integer.parseInt(input);
-		if(picked < allStores.size())
+		if(picked < allStores.size()) {
 		businessStoreMenu(allStores.get(picked-1));
+		} else {
+			createStore();
+		}
+	}
+	
+	public static void createStore() {
+		System.out.println("What city is this store located at?");
+		String city = scanner.nextLine();
+		
+		System.out.println("What state is this store located at?");
+		String state = scanner.nextLine();
+		boolean exists = false;
+		for(Store s: allStores) {
+			if (s.getCity().equalsIgnoreCase(city) && s.getState().equalsIgnoreCase(state)) {
+				exists = true;
+			}
+		}
+		if(exists) {
+			System.out.println("That store seems to exist already in the system. Failed to create the new store.");
+			System.out.println();
+			try {
+				businessMenu();
+			} catch (ObjectOverLimitException e) {
+				System.out.println(e.getMessage());
+				mainMenu();
+			}
+		} else {
+			try {
+				allStores.add(new Store(city, state));
+			} catch (ObjectOverLimitException e) {
+				System.out.println(e.getMessage());
+				mainMenu();
+			} 
+			System.out.println("Sucessfully created the new " + allStores.get(allStores.size()-1).toString());
+			
+			System.out.println("Returning you to the main menu");
+			mainMenu();
+		}
 	}
 	public static void businessStoreMenu(Store store) throws ObjectOverLimitException {
 		System.out.println(store.toString());
@@ -743,7 +782,7 @@ public class Main {
 	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
 	            	Store store = allStores.get(i);
 	            	store.payEmployees(store.calculateProfit()/employees.size());
-	            	businessMenu();
+	            	mainMenu();
 	            }
 	        }
 	    }else if(picked == 4) {
@@ -753,7 +792,7 @@ public class Main {
 	            if (allStores.get(i).getCity().equalsIgnoreCase(storeName)) {
 	            	Store store = allStores.get(i);
 	            	store.calculateProfit();
-	            	businessMenu();
+	            	mainMenu();
 	            }
 	        }
 	    }    
