@@ -6,8 +6,7 @@ public class Employee {
     private final int id;
     private final Store store;
     static int currentObjects;
-    private double discountRate;
-    
+
     public String getName() {
         return name;
     }
@@ -31,7 +30,7 @@ public class Employee {
         this.name = name;
         this.id = id;
         this.store = store;
-        this.discountRate = .3;
+        
         currentObjects++;
 		
 		if(currentObjects > 100) {
@@ -73,7 +72,7 @@ public class Employee {
     }
 	
 	public double getDiscountRate() {
-        return discountRate; 
+         return 0.2;
     }
 
     public boolean validateCustomer(Customer customer) {
