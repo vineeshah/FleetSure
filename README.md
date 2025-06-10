@@ -1,38 +1,87 @@
-# Spring2025CS151Project1
-Overview:
-A system representing a business that supports the renting and selling of various vehicles. The system can be booted up into 2 perspectives, one representing a customer looking to purchase or rent a vehicle, and another to represent the owner of a branch location.
+# Vehicle Rental and Sales System  
+**Spring 2025 – CS151 Project 1**
 
-Design:
-The system can be broken up into 3 main categories. The first category is the main system that handles user input and guides the interactions between classes. It contains all the user prompts and calls the appropriate method in the classes based upon the user input. The next category is the Employee Class, Customer Class, and Order class which represent interactions between the system and its user. They keep track of the purchases of the user and overall ensure all references are updated correctly. The final category classes are the ones that represent an object in real life which include the Store, Inventory, and any Classes related to vehicles. These are the main objects being manipulated by the other classes. Their main function is to exist as part of the system rather than being a stand-alone class.
+## 📌 Overview
+This application simulates a vehicle rental and sales business with two distinct user perspectives:  
+- **Customer**: Can browse, rent, or purchase vehicles from a store's inventory.  
+- **Branch Owner (Business Perspective)**: Can manage employees and vehicle inventory.
 
-Additional Note:
-Memory is not preserved across programs due to a lack of a file reading and writing system. The system has been preloaded with some objects, but upon closing the program the memory will be wiped.
+The system is built using Object-Oriented Programming principles in Java, with a modular structure to support extensibility and maintainability.
 
-Installation Instructions:
-This program only requires a working JDK or JRE.
+---
 
-Usage:
-Upon booting up the system, the user is given the option between choosing the customer perspective and the business perspective. After that, the user must pick the location upon which they want to engage with. 
+## 🛠️ System Design
 
-From the customer's perspective, the user is given the option to look for any specific type of car they want to purchase/rent within the inventory of the store they have chosen. If a match is found, the user is prompted to rent it for a specific amount of days or purchase the vehicle. Upon the ending of any individual action, the user is redirected back to the customer's main menu.
+The system is structured into three core components:
 
-From the business perspective, the user is given the option to manage their employees or their vehicles. From there the user can choose to edit the inventory and manage their employees. Like the customer's perspective, once any action is completed, the user is redirected to the business main menu.
+### 1. **Controller Layer (Main System)**
+Handles:
+- User input and interaction flow.
+- Coordination between different subsystems.
+- Navigation between user roles (customer vs. business).
 
-Contributions:
-James 
-- Created the customer prompt menus in Main. 
-- Focused on the Class Car and RentalCar
+### 2. **User & Order Layer**
+Classes:
+- `Customer`, `Employee`, `Order`  
+Responsibilities:
+- Represent user interactions with the system.
+- Track rentals, purchases, and orders.
+- Maintain data integrity and relationships between users and vehicles.
 
-Ayman
-- Focused on the Class Moving Truck.
-- Implemented key rental functionality - ensured that Moving truck can be rented, extended, and charged.
-- Used isAvailable and currentOwner to track rental status.
-- implemented exception handling for main menu and customer menu.
+### 3. **Model Layer (Business Entities)**
+Classes:
+- `Store`, `Inventory`, and vehicle subclasses (`Car`, `Truck`, etc.)
+Responsibilities:
+- Represent real-world entities.
+- Provide core data structures for storage and manipulation.
+- Act as the foundation for business logic.
 
-Jorge
--Customer class and setting exception if the user leaves a prompt blank
--Employee class and setting exceptions for null items if a prompt is left blank \
+---
 
-Vineet 
--Vehicle class and interfaces
--Business menu and structure of Main
+## ⚠️ Note on Persistence
+
+The system currently operates **in-memory only**. All data is preloaded at runtime, and no file I/O is implemented. All data will be lost once the application is closed.
+
+---
+
+## 🧰 Installation
+
+1. Ensure you have **Java JDK 17 or higher** installed.  
+2. Compile all `.java` files in the project folder:
+   ```bash
+   javac *.java
+   ```
+3. Run the main class:
+   ```bash
+   java Main
+   ```
+
+---
+
+## ▶️ Usage Instructions
+
+### Customer Perspective
+1. Select **Customer Mode** at startup.
+2. Choose a store location.
+3. Search the inventory for available vehicles.
+4. Choose to **rent** (for a number of days) or **purchase** a vehicle.
+5. After each action, you will return to the Customer Main Menu.
+
+### Business Perspective
+1. Select **Business Mode** at startup.
+2. Choose a store location.
+3. Access options to:
+   - Manage the **vehicle inventory** (add/remove/update vehicles).
+   - Manage **employees** (view/add/remove staff).
+4. After each action, you will return to the Business Main Menu.
+
+---
+
+## 🧱 Object-Oriented Features
+
+- **Encapsulation**: All class fields are private with public getters/setters.
+- **Inheritance**: A base `Vehicle` class with subclasses like `Car`, `Truck`, etc.
+- **Polymorphism**: Common methods overridden in vehicle subclasses.
+- **Modularity**: Clear separation of concerns across packages and classes.
+
+
